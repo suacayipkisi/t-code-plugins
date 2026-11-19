@@ -1,6 +1,7 @@
 {
   "id": "matlab",
   "name": "MATLAB",
+  "provider": "suacayipkisi",
   "description": "Run .m files in a MATLAB session in a terminal tab (F5 too); run errors show as diagnostics.",
   "version": "0.1.0",
   "api": "tapi_1",

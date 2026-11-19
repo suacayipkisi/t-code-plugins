@@ -1,6 +1,7 @@
 {
   "id": "text-tools",
   "name": "Text Tools",
+  "provider": "suacayipkisi",
   "description": "Change case, sort and dedupe lines, base64, URL encoding, JSON formatting, a UUID or a date.",
   "version": "1.0.0",
   "api": "tapi_1",

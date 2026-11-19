@@ -71,6 +71,16 @@ def strings(value):
     return isinstance(value, list) and all(isinstance(v, str) and v for v in value)
 
 
+def owner(repository):
+    """"someone" for https://github.com/someone/repo."""
+    return repository.split("/")[3] if isinstance(repository, str) and repository.count("/") >= 4 else ""
+
+
+def provider_of(manifest, repository):
+    """Who publishes a plugin: its plugin.json's "provider", else the repository's owner."""
+    return manifest.get("provider") or owner(repository)
+
+
 def check_entry(path, entry, old, actor):
     """Problems with the entry itself (old: the same file at --base, or None)."""
     problems = []
@@ -94,7 +104,7 @@ def check_entry(path, entry, old, actor):
     unknown = set(entry.get("permissions") or []) - PERMISSIONS
     if unknown:
         problems.append(f"permissions: unknown {sorted(unknown)}")
-    for key in ("name", "description", "version", "api"):
+    for key in ("name", "provider", "description", "version", "api"):
         if not isinstance(entry.get(key), str) or not entry[key]:
             problems.append(f"{key}: a string (the same as in plugin.json)")
     reviewed = entry.get("reviewed", False)
@@ -248,6 +258,7 @@ def check_commit(entry):
         except (Unfit, OSError, ValueError, tarfile.TarError) as e:
             return [f"the commit cannot be checked: {e}"]
         same = {"id": manifest.get("id", folder.name), "name": manifest.get("name"),
+                "provider": provider_of(manifest, entry.get("repository")),
                 "version": manifest.get("version"), "api": manifest.get("api"),
                 "description": manifest.get("description")}
         for key, value in same.items():

@@ -19,7 +19,7 @@ COMMIT = "0123456789abcdef0123456789abcdef01234567"
 
 
 def entry(**changes):
-    e = {"id": "fix", "name": "Fix", "description": "Fixes.", "version": "1.0.0", "api": "tapi_1",
+    e = {"id": "fix", "name": "Fix", "provider": "someone", "description": "Fixes.", "version": "1.0.0", "api": "tapi_1",
          "repository": "https://github.com/someone/fix", "commit": COMMIT, "path": "",
          "tree-sha256": FIXTURE_TREE, "permissions": [], "categories": ["text"], "reviewed": False}
     e.update(changes)
@@ -130,6 +130,10 @@ class Files(unittest.TestCase):
             problems = "\n".join(check.check_commit(entry(name="Other", **{"tree-sha256": "0" * 64})))
             self.assertIn("tree-sha256 does not match", problems)
             self.assertIn("name: the entry says 'Other'", problems)
+            # the fixture's plugin.json names no provider: the repository's owner it is
+            problems = "\n".join(check.check_commit(entry(name="Fix", provider="t-code", description=None, version=None,
+                                                         api=None)))
+            self.assertIn("provider: the entry says 't-code', plugin.json 'someone'", problems)
         finally:
             check.download = real
 
@@ -146,6 +150,7 @@ class NewEntry(unittest.TestCase):
         made = new_entry.entry_for("https://github.com/someone/fix", COMMIT, "", ["text"], fake_download)
         self.assertEqual(made["tree-sha256"], FIXTURE_TREE)
         self.assertEqual(made["id"], "fix")
+        self.assertEqual(made["provider"], "someone")
         self.assertFalse(made["reviewed"])
         made.update(description="Fixes.", version="1.0.0", api="tapi_1")  # the fixture's manifest is bare
         self.assertEqual(check.check_entry(pathlib.Path("plugins/fix.json"), made, None, "someone"), [])

@@ -27,6 +27,7 @@ def entry_for(repository, commit, path, categories, download=None):
         return {
             "id": manifest.get("id", folder.name),
             "name": manifest["name"],
+            "provider": check.provider_of(manifest, repository),
             "description": manifest.get("description", ""),
             "version": manifest.get("version", ""),
             "api": manifest.get("api", ""),

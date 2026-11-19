@@ -1,6 +1,7 @@
 {
   "id": "shellcheck",
   "name": "ShellCheck",
+  "provider": "suacayipkisi",
   "description": "ShellCheck's warnings in the Problems panel and the editor whenever a shell script is opened or saved.",
   "version": "1.0.0",
   "api": "tapi_1",

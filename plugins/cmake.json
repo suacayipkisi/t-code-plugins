@@ -1,0 +1,20 @@
+{
+  "id": "cmake",
+  "name": "CMake",
+  "provider": "suacayipkisi",
+  "description": "CMake presets, Configure with its errors as diagnostics, Build in a terminal tab, and cmake-language-server.",
+  "version": "0.1.0",
+  "api": "tapi_1",
+  "repository": "https://github.com/suacayipkisi/t-code",
+  "commit": "86442184638af98df0e150ad4a2c526bcba1c726",
+  "path": "plugins/builtin/cmake",
+  "tree-sha256": "89545980cc4d599b8e678061885e97a4d1c488445077fc47738cda9bb1ed33bf",
+  "permissions": [
+    "terminal"
+  ],
+  "categories": [
+    "build",
+    "languages"
+  ],
+  "reviewed": false
+}

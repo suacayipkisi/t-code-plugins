@@ -16,6 +16,7 @@ How plugins work (the manifest, the socket, permissions): t-code's
 {
   "id": "shellcheck",
   "name": "ShellCheck",
+  "provider": "someone",
   "description": "ShellCheck's warnings in the Problems panel when a shell script is saved.",
   "version": "1.0.0",
   "api": "tapi_1",
@@ -33,6 +34,7 @@ How plugins work (the manifest, the socket, permissions): t-code's
 |---|---|
 | `id` | The plugin's id, the file's name; lowercase letters, digits and `-`. |
 | `name`, `description`, `version`, `api`, `permissions` | The same as in the plugin's `plugin.json` at that commit (CI compares). |
+| `provider` | Who publishes the plugin, shown next to it in t-code: `plugin.json`'s `provider`, or the repository's owner when it has none (CI compares). |
 | `repository` | `https://github.com/<owner>/<repo>`. |
 | `commit` | The full commit id t-code installs. Not a branch or a tag: those move. |
 | `path` | The plugin's folder inside the repository (`""` for the top). |

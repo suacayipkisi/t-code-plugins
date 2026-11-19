@@ -9,7 +9,7 @@ import pathlib
 import sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-FIELDS = ["id", "name", "description", "version", "api", "repository", "commit", "path",
+FIELDS = ["id", "name", "provider", "description", "version", "api", "repository", "commit", "path",
           "tree-sha256", "permissions", "categories", "reviewed"]
 
 
