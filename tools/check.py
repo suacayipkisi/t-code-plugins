@@ -46,8 +46,10 @@ ID = re.compile(r"^[a-z0-9][a-z0-9-]*$")
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
 PIPE_TO_SHELL = re.compile(r"(curl|wget)[^\n|]*\|\s*(sudo\s+)?(ba|z|da)?sh\b")
-NETWORK = re.compile(r"\b(curl|wget|nc|ncat|ssh|scp|rsync|telnet)\b|\burllib\b|\brequests\.(get|post)|http\.client"
-                     r"|\bfetch\(|https?\.get\(")
+NETWORK = re.compile(
+    r"(?:^|[\s;|&(`'\"\[])(curl|wget|nc|ncat|ssh|scp|rsync|telnet)(?=[\s'\"]|$)"  # as a program
+    r"|\burllib\.request\b|\burlopen\(|\brequests\.(get|post|put|delete|head)\(|\bhttp\.client\b"  # Python
+    r"|\bsocket\.create_connection\(|\bfetch\(|\bhttps?\.(get|request)\(")  # Python, JavaScript
 # Lines that only talk to t-code's own socket, or look whether a program is there.
 LOCAL = re.compile(r"TCODE_SOCKET|\s-U\b|UNIX-CONNECT|AF_UNIX|command -v|\bwhich\b|^\s*#")
 
@@ -57,7 +59,7 @@ def network_use(text):
     for line in text.splitlines():
         hit = NETWORK.search(line)
         if hit and not LOCAL.search(line):
-            return hit.group(0)
+            return hit.group(0).strip(" \t;|&(`'\"[")
     return None
 
 
@@ -157,8 +159,35 @@ def check_files(folder, manifest):
     return problems
 
 
+# What the fake t-code answers, by command; "ok" for the rest. Text answers end with a NUL.
+FAKE_ANSWERS = {"get-text": b"ok\n\0", "get-selection": b"ok\n\0", "get-cursor": b"ok 1 1\n",
+                "get-selection-range": b"ok 1 1 1 1\n", "hello": b"ok tapi_1 t-code smoke\n"}
+
+
+def fake_answers(c):
+    """Answers one connection's requests, ended by a line break or a NUL (like t-code's)."""
+    pending = b""
+    try:
+        with c:
+            while True:
+                data = c.recv(4096)
+                if not data:
+                    return
+                pending += data
+                while True:
+                    cut = min((i for i in (pending.find(b"\0"), pending.find(b"\n")) if i >= 0), default=-1)
+                    if cut < 0:
+                        break
+                    request, pending = pending[:cut], pending[cut + 1:]
+                    command = request.split(b" ", 1)[0].decode("utf-8", "replace")
+                    if command:
+                        c.sendall(FAKE_ANSWERS.get(command, b"ok\n"))
+    except OSError:
+        pass  # the plugin went away
+
+
 def fake_socket(path, stop):
-    """A t-code that answers "ok" to every line."""
+    """A t-code that says yes to everything."""
     server = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
     server.bind(path)
     server.listen(8)
@@ -168,12 +197,7 @@ def fake_socket(path, stop):
             conn, _ = server.accept()
         except socket.timeout:
             continue
-        def serve(c):
-            with c, c.makefile("rwb") as f:
-                for _line in f:
-                    f.write(b"ok\n")
-                    f.flush()
-        threading.Thread(target=serve, args=(conn,), daemon=True).start()
+        threading.Thread(target=fake_answers, args=(conn,), daemon=True).start()
     server.close()
 
 
@@ -181,7 +205,7 @@ def smoke(folder, manifest):
     problems = []
     executable = manifest.get("executable")
     candidates = [executable] if executable else ["run.sh", "plugin", folder.name]
-    program = next((folder / c for c in candidates if c and (folder / c).is_file()), None)
+    program = next(((folder / c).resolve() for c in candidates if c and (folder / c).is_file()), None)
     commands = [c.get("id") for c in manifest.get("commands") or [] if isinstance(c, dict)]
     if manifest.get("start") == "project":
         commands.append("start")

@@ -88,6 +88,12 @@ class Files(unittest.TestCase):
                    "  printf 'hello tapi_1\\n' | nc -U \"$TCODE_SOCKET\"\nfi\n", 0o755)
         self.assertEqual([p for p in check.check_files(self.dir, {"permissions": []}) if "shellcheck" not in p], [])
 
+    def test_not_network(self):
+        self.write("tool.py", "import urllib.parse\nprint('a\\nc\\n')\nsync = 1\n")
+        self.assertEqual(check.check_files(self.dir, {"permissions": []}), [])
+        self.write("tool.py", "import subprocess\nsubprocess.run(['curl', 'https://x'])\n")
+        self.assertIn("('curl')", "\n".join(check.check_files(self.dir, {"permissions": []})))
+
     def test_network_declared(self):
         self.write("fetch.py", "import urllib.request\n")
         self.assertEqual(check.check_files(self.dir, {"permissions": ["network"]}), [])
@@ -100,6 +106,17 @@ class Files(unittest.TestCase):
         self.assertIn("could not run", "\n".join(check.smoke(self.dir, manifest)))
         os.chmod(self.dir / "run.sh", 0o644)
         self.assertIn("no executable program", "\n".join(check.smoke(self.dir, manifest)))
+
+    def test_smoke_answers_nul_requests(self):
+        """A plugin ending its requests with NUL, reading text answers up to a NUL, finishes at once."""
+        self.write("run.sh", "#!/usr/bin/env python3\nimport os, socket\n"
+                   "s = socket.socket(socket.AF_UNIX); s.connect(os.environ['TCODE_SOCKET']); f = s.makefile('rb')\n"
+                   "for r in (b'hello tapi_1 x', b'get-selection-range'):\n    s.sendall(r + b'\\0'); f.readline()\n"
+                   "s.sendall(b'get-selection\\0'); f.readline(); assert f.read(1) == b'\\0'\n", 0o755)
+        import time
+        began = time.monotonic()
+        self.assertEqual(check.smoke(self.dir, {"commands": [{"id": "go", "name": "Go"}]}), [])
+        self.assertLess(time.monotonic() - began, 3)
 
     def test_commit(self):
         """check_commit on the fixture as if downloaded: the entry has to match its plugin.json."""
@@ -115,6 +132,23 @@ class Files(unittest.TestCase):
             self.assertIn("name: the entry says 'Other'", problems)
         finally:
             check.download = real
+
+
+class NewEntry(unittest.TestCase):
+    def test_entry_matches_check(self):
+        import new_entry
+
+        def fake_download(pin, into):
+            target = pathlib.Path(into, "fix-" + COMMIT)
+            shutil.copytree(FIXTURE, target)
+            return target
+        os.chmod(FIXTURE / "run.sh", 0o755)
+        made = new_entry.entry_for("https://github.com/someone/fix", COMMIT, "", ["text"], fake_download)
+        self.assertEqual(made["tree-sha256"], FIXTURE_TREE)
+        self.assertEqual(made["id"], "fix")
+        self.assertFalse(made["reviewed"])
+        made.update(description="Fixes.", version="1.0.0", api="tapi_1")  # the fixture's manifest is bare
+        self.assertEqual(check.check_entry(pathlib.Path("plugins/fix.json"), made, None, "someone"), [])
 
 
 if __name__ == "__main__":

@@ -47,8 +47,12 @@ compresses its archives. Symbolic links make a folder unfit.
 ## Publishing
 
 1. Put the plugin in a public GitHub repository (a whole repository, or a folder in one).
-2. At the commit you want to publish: `tools/tree_hash.py <plugin folder>`.
-3. Add `plugins/<id>.json`, run `tools/build_index.py`, and commit both.
+2. Push the commit you want to publish, then
+   `tools/new_entry.py https://github.com/<owner>/<repo> <commit> [path] --category <word>`: it
+   downloads that commit and writes `plugins/<id>.json` from its `plugin.json` and files (by hand:
+   `tools/tree_hash.py <plugin folder>` gives `tree-sha256`).
+3. Run `tools/build_index.py` and `tools/check.py plugins/<id>.json`, and commit the entry and
+   `index.json`.
 4. Open a pull request. CI checks it (below); when it passes, it is merged with `"reviewed": false`.
 
 Updating is the same with a new `commit` and `tree-sha256`. A new commit always starts unreviewed.
