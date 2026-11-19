@@ -1,0 +1,44 @@
+# The automatic review (tools/check.py): every pull request's changed entries, and every push to main.
+# Plugin code runs only in the smoke test, on GitHub's runner, with a read-only token and no secrets.
+name: check
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: check-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Tools
+        run: sudo apt-get update && sudo apt-get install -y shellcheck
+      - name: The tools' own tests
+        run: python3 tools/test_tools.py
+      - name: index.json is up to date
+        run: python3 tools/build_index.py --check
+      - name: The pull request's entries
+        if: github.event_name == 'pull_request'
+        run: >
+          python3 tools/check.py --base "origin/${{ github.base_ref }}"
+          --actor "${{ github.event.pull_request.user.login }}"
+      - name: The pushed entries
+        if: github.event_name == 'push'
+        env:
+          BEFORE: ${{ github.event.before }}
+        run: |
+          if git cat-file -e "$BEFORE^{commit}" 2>/dev/null; then
+            python3 tools/check.py --base "$BEFORE" --actor "${{ github.actor }}"
+          else
+            python3 tools/check.py --offline --actor "${{ github.actor }}"
+          fi
