@@ -9,7 +9,7 @@ How plugins work (the manifest, the socket, permissions): t-code's
 [docs/plugins.md](https://github.com/suacayipkisi/t-code/blob/main/docs/plugins.md).
 
 ## An entry
-
+ 
 `plugins/<id>.json`, one per plugin:
 
 ```json
