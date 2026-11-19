@@ -1,4 +1,59 @@
 {
   "format": 1,
-  "plugins": []
+  "plugins": [
+    {
+      "id": "matlab",
+      "name": "MATLAB",
+      "description": "Run .m files in a MATLAB session in a terminal tab (F5 too); run errors show as diagnostics.",
+      "version": "0.1.0",
+      "api": "tapi_1",
+      "repository": "https://github.com/suacayipkisi/t-code",
+      "commit": "68f395b47a8ddbf456d9fc6025b89b469c500f09",
+      "path": "plugins/builtin/matlab",
+      "tree-sha256": "f7f267601cd5bb0fb758d65f2c757522da36ed93da4d5512b4e156302d4e1901",
+      "permissions": [
+        "terminal"
+      ],
+      "categories": [
+        "languages"
+      ],
+      "reviewed": false
+    },
+    {
+      "id": "shellcheck",
+      "name": "ShellCheck",
+      "description": "ShellCheck's warnings in the Problems panel and the editor whenever a shell script is opened or saved.",
+      "version": "1.0.0",
+      "api": "tapi_1",
+      "repository": "https://github.com/suacayipkisi/t-code",
+      "commit": "68f395b47a8ddbf456d9fc6025b89b469c500f09",
+      "path": "plugins/builtin/shellcheck",
+      "tree-sha256": "c7c0a725b79b1d68cc16621ecb8c05788d5ad3fad047cc7df688c853952cae36",
+      "permissions": [
+        "start"
+      ],
+      "categories": [
+        "linters"
+      ],
+      "reviewed": false
+    },
+    {
+      "id": "text-tools",
+      "name": "Text Tools",
+      "description": "Change case, sort and dedupe lines, base64, URL encoding, JSON formatting, a UUID or a date.",
+      "version": "1.0.0",
+      "api": "tapi_1",
+      "repository": "https://github.com/suacayipkisi/t-code",
+      "commit": "68f395b47a8ddbf456d9fc6025b89b469c500f09",
+      "path": "plugins/builtin/text-tools",
+      "tree-sha256": "5a01b39257a35b971c6afb86867d02103531769c07704bd4ab939774d0eb119a",
+      "permissions": [
+        "edit"
+      ],
+      "categories": [
+        "text"
+      ],
+      "reviewed": false
+    }
+  ]
 }

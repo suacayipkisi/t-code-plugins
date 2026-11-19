@@ -1,0 +1,18 @@
+{
+  "id": "matlab",
+  "name": "MATLAB",
+  "description": "Run .m files in a MATLAB session in a terminal tab (F5 too); run errors show as diagnostics.",
+  "version": "0.1.0",
+  "api": "tapi_1",
+  "repository": "https://github.com/suacayipkisi/t-code",
+  "commit": "68f395b47a8ddbf456d9fc6025b89b469c500f09",
+  "path": "plugins/builtin/matlab",
+  "tree-sha256": "f7f267601cd5bb0fb758d65f2c757522da36ed93da4d5512b4e156302d4e1901",
+  "permissions": [
+    "terminal"
+  ],
+  "categories": [
+    "languages"
+  ],
+  "reviewed": false
+}
