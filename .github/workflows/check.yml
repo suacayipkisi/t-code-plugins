@@ -1,4 +1,5 @@
 # The automatic review (tools/check.py): every pull request's changed entries, and every push to main.
+# It runs the pull request's own copy of the tools; guard.yml checks the same pull request with the rules on main.
 # Plugin code runs only in the smoke test, on GitHub's runner, with a read-only token and no secrets.
 name: check
 

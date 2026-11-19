@@ -4,6 +4,7 @@ import json
 import os
 import pathlib
 import shutil
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -136,6 +137,72 @@ class Files(unittest.TestCase):
             self.assertIn("provider: the entry says 't-code', plugin.json 'someone'", problems)
         finally:
             check.download = real
+
+
+class Guard(unittest.TestCase):
+    """guard.py on a throwaway repository: base on main, the pull request on its own branch."""
+
+    def setUp(self):
+        import build_index
+        import guard
+        self.guard, self.render = guard.guard, build_index.render
+        self.repo = pathlib.Path(tempfile.mkdtemp())
+        self.git("init", "-q", "-b", "main")
+        self.git("config", "user.email", "t@example.com")
+        self.git("config", "user.name", "t")
+        self.put({"plugins/fix.json": entry()})
+        self.git("checkout", "-q", "-b", "pull")
+
+    def tearDown(self):
+        shutil.rmtree(self.repo)
+
+    def git(self, *args):
+        subprocess.run(["git", *args], cwd=self.repo, check=True, capture_output=True)
+
+    def put(self, files, index=True):
+        """Writes files (dicts as JSON, None removes), index.json from the entries, and commits."""
+        for name, data in files.items():
+            path = self.repo / name
+            if data is None:
+                path.unlink()
+                continue
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(json.dumps(data) if isinstance(data, dict) else data)
+        if index:
+            entries = [json.loads(p.read_text()) for p in sorted((self.repo / "plugins").glob("*.json"))]
+            (self.repo / "index.json").write_text(self.render(entries))
+        self.git("add", "-A")
+        self.git("commit", "-q", "-m", "x")
+
+    def problems(self, actor="someone"):
+        return "\n".join(self.guard(self.repo, "main", "pull", actor))
+
+    def test_new_entry(self):
+        self.put({"plugins/other.json": entry(id="other")})
+        self.assertEqual(self.problems(), "")
+
+    def test_rules_only_from_maintainers(self):
+        self.put({"MAINTAINERS": "someone\n", "tools/check.py": "print('fine')\n"})
+        text = self.problems()
+        self.assertIn("MAINTAINERS: only a maintainer", text)
+        self.assertIn("tools/check.py: only a maintainer", text)
+        self.assertEqual(self.problems("suacayipkisi"), "")
+
+    def test_reviewed_and_removing(self):
+        self.put({"plugins/fix.json": entry(reviewed=True)})
+        self.assertIn("reviewed: only a maintainer", self.problems())
+        self.assertEqual(self.problems("suacayipkisi"), "")
+        self.git("reset", "-q", "--hard", "main")
+        self.put({"plugins/fix.json": None})
+        self.assertIn("only a maintainer removes", self.problems())
+
+    def test_index_must_match(self):
+        self.put({"plugins/other.json": entry(id="other")}, index=False)
+        self.assertIn("index.json is out of date", self.problems())
+        # an index.json that says reviewed while the entry does not
+        self.git("reset", "-q", "--hard", "main")
+        self.put({"index.json": self.render([entry(reviewed=True)])}, index=False)
+        self.assertIn("index.json is out of date", self.problems())
 
 
 class NewEntry(unittest.TestCase):

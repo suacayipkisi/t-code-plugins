@@ -13,13 +13,15 @@ FIELDS = ["id", "name", "provider", "description", "version", "api", "repository
           "tree-sha256", "permissions", "categories", "reviewed"]
 
 
-def build():
-    plugins = []
-    for path in sorted((ROOT / "plugins").glob("*.json")):
-        entry = json.loads(path.read_text())
-        plugins.append({k: entry[k] for k in FIELDS if k in entry})
+def render(entries):
+    """index.json's text for these entries (tools/guard.py reads them from git)."""
+    plugins = [{k: entry[k] for k in FIELDS if k in entry} for entry in entries]
     plugins.sort(key=lambda e: e["id"])
     return json.dumps({"format": 1, "plugins": plugins}, indent=2, ensure_ascii=False) + "\n"
+
+
+def build():
+    return render(json.loads(path.read_text()) for path in sorted((ROOT / "plugins").glob("*.json")))
 
 
 if __name__ == "__main__":

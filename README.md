@@ -75,6 +75,15 @@ Updating is the same with a new `commit` and `tree-sha256`. A new commit always 
 
 `python3 tools/test_tools.py` tests the tools themselves.
 
+A second check, `guard` (`tools/guard.py`), runs the rules from `main`, not from the pull request,
+so a pull request cannot change what it is checked by. It reads the pull request as data and runs
+none of it:
+
+- only maintainers change anything outside `plugins/` and `index.json` (tools, workflows,
+  `MAINTAINERS`, this README) or remove an entry;
+- the entries' fields and `reviewed`, with `MAINTAINERS` as it is on `main`;
+- `index.json` is exactly what `tools/build_index.py` makes from the entries.
+
 ## Review
 
 Passing CI means the rules hold, not that the plugin is safe. Until a maintainer has read the
