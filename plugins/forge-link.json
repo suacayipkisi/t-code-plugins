@@ -1,0 +1,17 @@
+{
+  "id": "forge-link",
+  "name": "Open on GitHub / GitLab",
+  "provider": "t-code",
+  "description": "Copies or opens the web link of the cursor's line or the selected lines, at the current commit, on GitHub, GitLab, Codeberg / Gitea or Bitbucket. Needs Perl 5 and git.",
+  "version": "0.1.0",
+  "api": "tapi_1",
+  "repository": "https://github.com/suacayipkisi/t-code",
+  "commit": "be1f10c7d63b23bad3ad5bcc44d199c713fe59af",
+  "path": "plugins/builtin/forge-link",
+  "tree-sha256": "07f32506b1e438b90ba23454df9448e66c1996871288fa71e07dd295e99440d3",
+  "permissions": [],
+  "categories": [
+    "git"
+  ],
+  "reviewed": false
+}

@@ -1,0 +1,17 @@
+{
+  "id": "commit-msg",
+  "name": "Commit Message Helper",
+  "provider": "t-code",
+  "description": "Guesses the Conventional Commits type and scope of the staged files (fix(lsp): ...), asks for the subject and fills Source Control's message box. Written in Go, built once with go.",
+  "version": "0.1.0",
+  "api": "tapi_1",
+  "repository": "https://github.com/suacayipkisi/t-code",
+  "commit": "58a1856a4eb412313a6082f6dc94fe67e1de6872",
+  "path": "plugins/builtin/commit-msg",
+  "tree-sha256": "60ca8f99b29256f3497fa2db0a6e47a9c85fd721e591c69cafeba49e440f78d0",
+  "permissions": [],
+  "categories": [
+    "git"
+  ],
+  "reviewed": false
+}

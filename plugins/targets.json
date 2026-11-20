@@ -1,0 +1,19 @@
+{
+  "id": "targets",
+  "name": "Targets",
+  "provider": "t-code",
+  "description": "Make, just, Task and npm targets in the picker; the chosen one runs in a terminal tab, its compiler errors land in Problems. Needs Node.js 18 or newer (and make, just or task for their files).",
+  "version": "0.1.0",
+  "api": "tapi_1",
+  "repository": "https://github.com/suacayipkisi/t-code",
+  "commit": "ead4bb11a2d77af66828be92adbd46341db568d0",
+  "path": "plugins/builtin/targets",
+  "tree-sha256": "8c562bd2e7d6dcbc90c19df1fcb1f1071b32248ced678d8d73c5427d925c6672",
+  "permissions": [
+    "terminal"
+  ],
+  "categories": [
+    "build"
+  ],
+  "reviewed": false
+}

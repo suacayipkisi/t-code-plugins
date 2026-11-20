@@ -1,0 +1,20 @@
+{
+  "id": "spell",
+  "name": "Spell Check",
+  "provider": "t-code",
+  "description": "Underlines misspelled words in Markdown and text files and in source files' comments when they open or are saved; fixes the word at the cursor from hunspell's suggestions. Needs hunspell and a dictionary; written in C++, built once with the system's C++ compiler.",
+  "version": "0.1.0",
+  "api": "tapi_1",
+  "repository": "https://github.com/suacayipkisi/t-code",
+  "commit": "ea5e7518e2bc1b045dd20035feba1a44982a7523",
+  "path": "plugins/builtin/spell",
+  "tree-sha256": "4980993de43c0ab199462564b532891f213f83a29276a578847c64da1a2efe35",
+  "permissions": [
+    "edit",
+    "start"
+  ],
+  "categories": [
+    "linters"
+  ],
+  "reviewed": false
+}

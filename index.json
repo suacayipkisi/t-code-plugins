@@ -22,6 +22,60 @@
       "reviewed": false
     },
     {
+      "id": "commit-msg",
+      "name": "Commit Message Helper",
+      "provider": "t-code",
+      "description": "Guesses the Conventional Commits type and scope of the staged files (fix(lsp): ...), asks for the subject and fills Source Control's message box. Written in Go, built once with go.",
+      "version": "0.1.0",
+      "api": "tapi_1",
+      "repository": "https://github.com/suacayipkisi/t-code",
+      "commit": "58a1856a4eb412313a6082f6dc94fe67e1de6872",
+      "path": "plugins/builtin/commit-msg",
+      "tree-sha256": "60ca8f99b29256f3497fa2db0a6e47a9c85fd721e591c69cafeba49e440f78d0",
+      "permissions": [],
+      "categories": [
+        "git"
+      ],
+      "reviewed": false
+    },
+    {
+      "id": "forge-link",
+      "name": "Open on GitHub / GitLab",
+      "provider": "t-code",
+      "description": "Copies or opens the web link of the cursor's line or the selected lines, at the current commit, on GitHub, GitLab, Codeberg / Gitea or Bitbucket. Needs Perl 5 and git.",
+      "version": "0.1.0",
+      "api": "tapi_1",
+      "repository": "https://github.com/suacayipkisi/t-code",
+      "commit": "be1f10c7d63b23bad3ad5bcc44d199c713fe59af",
+      "path": "plugins/builtin/forge-link",
+      "tree-sha256": "07f32506b1e438b90ba23454df9448e66c1996871288fa71e07dd295e99440d3",
+      "permissions": [],
+      "categories": [
+        "git"
+      ],
+      "reviewed": false
+    },
+    {
+      "id": "format-on-save",
+      "name": "Format on Save",
+      "provider": "t-code",
+      "description": "Formats a file when it is saved, where the project configures a formatter (.clang-format, ruff or black in pyproject.toml, .prettierrc, Cargo.toml, .editorconfig for shfmt; gofmt always), as one undo step. Needs the formatter itself; written in Go, built once with go.",
+      "version": "0.1.0",
+      "api": "tapi_1",
+      "repository": "https://github.com/suacayipkisi/t-code",
+      "commit": "b0e788588ec5fac93515dd1c409b24361564118d",
+      "path": "plugins/builtin/format-on-save",
+      "tree-sha256": "a7f10bda4c7e4904be4ad7854502b49b82b92e44d89ccb22da105e41c15596f9",
+      "permissions": [
+        "edit",
+        "start"
+      ],
+      "categories": [
+        "formatters"
+      ],
+      "reviewed": false
+    },
+    {
       "id": "java",
       "name": "Java",
       "provider": "t-code",
@@ -39,6 +93,25 @@
       ],
       "categories": [
         "languages"
+      ],
+      "reviewed": false
+    },
+    {
+      "id": "latex",
+      "name": "LaTeX and Typst",
+      "provider": "t-code",
+      "description": "Builds a LaTeX or Typst document when one of its files is saved, with its errors in Problems and its state in the status bar; opens the PDF. Needs latexmk, tectonic or pdflatex, or typst; written in Rust, built once with cargo.",
+      "version": "0.1.0",
+      "api": "tapi_1",
+      "repository": "https://github.com/suacayipkisi/t-code",
+      "commit": "be0bc548497ace249375ce6cbbcc60ee97edd786",
+      "path": "plugins/builtin/latex",
+      "tree-sha256": "7b86525c87b040a1dca6fe02f843f45403f82f299fb590016924f04e1936a168",
+      "permissions": [
+        "start"
+      ],
+      "categories": [
+        "documents"
       ],
       "reviewed": false
     },
@@ -81,6 +154,23 @@
       "reviewed": false
     },
     {
+      "id": "pomodoro",
+      "name": "Pomodoro",
+      "provider": "t-code",
+      "description": "A focus timer at the right of the status bar: 25 minutes of focus, then a break (a long one after every fourth), with a desktop notification when each ends. Written in C, built once with the system's C compiler.",
+      "version": "0.1.0",
+      "api": "tapi_1",
+      "repository": "https://github.com/suacayipkisi/t-code",
+      "commit": "ff56c07cdc88409a975f2974f5778c8fb9f6dc58",
+      "path": "plugins/builtin/pomodoro",
+      "tree-sha256": "1e3f31b981c78bbc174cf499a80811ffea3b27928172886a985f946db15cc3e9",
+      "permissions": [],
+      "categories": [
+        "fun"
+      ],
+      "reviewed": false
+    },
+    {
       "id": "shellcheck",
       "name": "ShellCheck",
       "provider": "suacayipkisi",
@@ -96,6 +186,45 @@
       ],
       "categories": [
         "linters"
+      ],
+      "reviewed": false
+    },
+    {
+      "id": "spell",
+      "name": "Spell Check",
+      "provider": "t-code",
+      "description": "Underlines misspelled words in Markdown and text files and in source files' comments when they open or are saved; fixes the word at the cursor from hunspell's suggestions. Needs hunspell and a dictionary; written in C++, built once with the system's C++ compiler.",
+      "version": "0.1.0",
+      "api": "tapi_1",
+      "repository": "https://github.com/suacayipkisi/t-code",
+      "commit": "ea5e7518e2bc1b045dd20035feba1a44982a7523",
+      "path": "plugins/builtin/spell",
+      "tree-sha256": "4980993de43c0ab199462564b532891f213f83a29276a578847c64da1a2efe35",
+      "permissions": [
+        "edit",
+        "start"
+      ],
+      "categories": [
+        "linters"
+      ],
+      "reviewed": false
+    },
+    {
+      "id": "targets",
+      "name": "Targets",
+      "provider": "t-code",
+      "description": "Make, just, Task and npm targets in the picker; the chosen one runs in a terminal tab, its compiler errors land in Problems. Needs Node.js 18 or newer (and make, just or task for their files).",
+      "version": "0.1.0",
+      "api": "tapi_1",
+      "repository": "https://github.com/suacayipkisi/t-code",
+      "commit": "ead4bb11a2d77af66828be92adbd46341db568d0",
+      "path": "plugins/builtin/targets",
+      "tree-sha256": "8c562bd2e7d6dcbc90c19df1fcb1f1071b32248ced678d8d73c5427d925c6672",
+      "permissions": [
+        "terminal"
+      ],
+      "categories": [
+        "build"
       ],
       "reviewed": false
     },

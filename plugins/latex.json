@@ -1,0 +1,19 @@
+{
+  "id": "latex",
+  "name": "LaTeX and Typst",
+  "provider": "t-code",
+  "description": "Builds a LaTeX or Typst document when one of its files is saved, with its errors in Problems and its state in the status bar; opens the PDF. Needs latexmk, tectonic or pdflatex, or typst; written in Rust, built once with cargo.",
+  "version": "0.1.0",
+  "api": "tapi_1",
+  "repository": "https://github.com/suacayipkisi/t-code",
+  "commit": "be0bc548497ace249375ce6cbbcc60ee97edd786",
+  "path": "plugins/builtin/latex",
+  "tree-sha256": "7b86525c87b040a1dca6fe02f843f45403f82f299fb590016924f04e1936a168",
+  "permissions": [
+    "start"
+  ],
+  "categories": [
+    "documents"
+  ],
+  "reviewed": false
+}
