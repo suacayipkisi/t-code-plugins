@@ -1,0 +1,21 @@
+{
+  "id": "java",
+  "name": "Java",
+  "provider": "t-code",
+  "description": "jdtls (completion, errors, navigation, refactoring), Run (F5 too), Build, Test and Clean for Maven, Gradle and plain folders, with errors and exceptions as diagnostics.",
+  "version": "0.1.0",
+  "api": "tapi_1",
+  "repository": "https://github.com/suacayipkisi/t-code",
+  "commit": "b2e69fbc939c40a1477e972477d3a8b4c2b37e55",
+  "path": "plugins/builtin/java",
+  "tree-sha256": "291bad84b0f2c2d26f3fff569a55f42eccbf1569f67ddaf6d7e8ba55329acc8f",
+  "permissions": [
+    "network",
+    "start",
+    "terminal"
+  ],
+  "categories": [
+    "languages"
+  ],
+  "reviewed": false
+}

@@ -1,0 +1,19 @@
+{
+  "id": "octave",
+  "name": "Octave",
+  "provider": "t-code",
+  "description": "Run .m files in a GNU Octave session in a terminal tab (F5 too); run errors show as diagnostics.",
+  "version": "0.1.0",
+  "api": "tapi_1",
+  "repository": "https://github.com/suacayipkisi/t-code",
+  "commit": "b2e69fbc939c40a1477e972477d3a8b4c2b37e55",
+  "path": "plugins/builtin/octave",
+  "tree-sha256": "d064bc1f10f9ed99a39d412fc89bd0831dea355f006b1a3b9d76e4b909e7a84e",
+  "permissions": [
+    "terminal"
+  ],
+  "categories": [
+    "languages"
+  ],
+  "reviewed": false
+}
