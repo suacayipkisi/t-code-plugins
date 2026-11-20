@@ -1,14 +1,14 @@
 {
   "id": "matlab",
   "name": "MATLAB",
-  "provider": "suacayipkisi",
-  "description": "Run .m files in a MATLAB session in a terminal tab (F5 too); run errors show as diagnostics.",
-  "version": "0.1.0",
+  "provider": "t-code",
+  "description": "Run .m files in a MATLAB session in a terminal tab (F5 too); run errors show as diagnostics. Needs MATLAB. Language server: install MathWorks' MATLAB Language Server yourself (matlab-language-server on PATH); the rest works without it.",
+  "version": "0.2.0",
   "api": "tapi_1",
   "repository": "https://github.com/suacayipkisi/t-code",
-  "commit": "68f395b47a8ddbf456d9fc6025b89b469c500f09",
+  "commit": "016ce5b8ef6e779d64f9ce4086dd87933f959451",
   "path": "plugins/builtin/matlab",
-  "tree-sha256": "f7f267601cd5bb0fb758d65f2c757522da36ed93da4d5512b4e156302d4e1901",
+  "tree-sha256": "28032e0eb3b2381c4ffa0e12f64371bce72d6b35af991ed357a534f2887c008e",
   "permissions": [
     "terminal"
   ],

@@ -1,0 +1,17 @@
+{
+  "id": "word-count",
+  "name": "Word Count",
+  "provider": "t-code",
+  "description": "Counts the words and lines of the current tab's file and says them in the status bar.",
+  "version": "1.2.0",
+  "api": "tapi_1",
+  "repository": "https://github.com/suacayipkisi/t-code",
+  "commit": "016ce5b8ef6e779d64f9ce4086dd87933f959451",
+  "path": "plugins/builtin/word-count",
+  "tree-sha256": "4c234635c319861e1c83446d3d879a825ab6dc5699dc5fd25a18640569082f66",
+  "permissions": [],
+  "categories": [
+    "text"
+  ],
+  "reviewed": false
+}

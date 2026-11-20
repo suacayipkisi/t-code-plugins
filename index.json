@@ -4,14 +4,14 @@
     {
       "id": "cmake",
       "name": "CMake",
-      "provider": "suacayipkisi",
-      "description": "CMake presets, Configure with its errors as diagnostics, Build in a terminal tab, and cmake-language-server.",
+      "provider": "t-code",
+      "description": "CMake presets, Configure with its errors as diagnostics, Build in a terminal tab. Language server: install cmake-language-server yourself (pip install cmake-language-server); t-code's own neocmakelsp wins when it is installed.",
       "version": "0.1.0",
       "api": "tapi_1",
       "repository": "https://github.com/suacayipkisi/t-code",
-      "commit": "86442184638af98df0e150ad4a2c526bcba1c726",
+      "commit": "016ce5b8ef6e779d64f9ce4086dd87933f959451",
       "path": "plugins/builtin/cmake",
-      "tree-sha256": "89545980cc4d599b8e678061885e97a4d1c488445077fc47738cda9bb1ed33bf",
+      "tree-sha256": "1d2f79afdadf047a1a9cc98bb4c32d7e6d336272a28c71e3d02e8042e4df505f",
       "permissions": [
         "terminal"
       ],
@@ -25,13 +25,13 @@
       "id": "java",
       "name": "Java",
       "provider": "t-code",
-      "description": "jdtls (completion, errors, navigation, refactoring), Run (F5 too), Build, Test and Clean for Maven, Gradle and plain folders, with errors and exceptions as diagnostics.",
+      "description": "jdtls (completion, errors, navigation, refactoring), Run (F5 too), Build, Test and Clean for Maven, Gradle and plain folders, with errors and exceptions as diagnostics. Language server: run Java: Install Language Server once (downloads jdtls; needs a JDK 21+).",
       "version": "0.1.0",
       "api": "tapi_1",
       "repository": "https://github.com/suacayipkisi/t-code",
-      "commit": "b2e69fbc939c40a1477e972477d3a8b4c2b37e55",
+      "commit": "016ce5b8ef6e779d64f9ce4086dd87933f959451",
       "path": "plugins/builtin/java",
-      "tree-sha256": "291bad84b0f2c2d26f3fff569a55f42eccbf1569f67ddaf6d7e8ba55329acc8f",
+      "tree-sha256": "045d985f2232076693535b000c4fd1b7c7c5d1c8b9c3e51519b1ef292e4060da",
       "permissions": [
         "network",
         "start",
@@ -45,14 +45,14 @@
     {
       "id": "matlab",
       "name": "MATLAB",
-      "provider": "suacayipkisi",
-      "description": "Run .m files in a MATLAB session in a terminal tab (F5 too); run errors show as diagnostics.",
-      "version": "0.1.0",
+      "provider": "t-code",
+      "description": "Run .m files in a MATLAB session in a terminal tab (F5 too); run errors show as diagnostics. Needs MATLAB. Language server: install MathWorks' MATLAB Language Server yourself (matlab-language-server on PATH); the rest works without it.",
+      "version": "0.2.0",
       "api": "tapi_1",
       "repository": "https://github.com/suacayipkisi/t-code",
-      "commit": "68f395b47a8ddbf456d9fc6025b89b469c500f09",
+      "commit": "016ce5b8ef6e779d64f9ce4086dd87933f959451",
       "path": "plugins/builtin/matlab",
-      "tree-sha256": "f7f267601cd5bb0fb758d65f2c757522da36ed93da4d5512b4e156302d4e1901",
+      "tree-sha256": "28032e0eb3b2381c4ffa0e12f64371bce72d6b35af991ed357a534f2887c008e",
       "permissions": [
         "terminal"
       ],
@@ -113,6 +113,40 @@
       "permissions": [
         "edit"
       ],
+      "categories": [
+        "text"
+      ],
+      "reviewed": false
+    },
+    {
+      "id": "todos",
+      "name": "TODO Finder",
+      "provider": "t-code",
+      "description": "TODO, FIXME, XXX and HACK comments in the project: pick one to go to it, or list them in the Problems panel. Written in Rust, built once with cargo.",
+      "version": "0.1.0",
+      "api": "tapi_1",
+      "repository": "https://github.com/suacayipkisi/t-code",
+      "commit": "016ce5b8ef6e779d64f9ce4086dd87933f959451",
+      "path": "plugins/builtin/todos",
+      "tree-sha256": "3d0ea8919fbaa25a1626088b3ea44d013c038774378a1a457296ca10dc6aae7f",
+      "permissions": [],
+      "categories": [
+        "text"
+      ],
+      "reviewed": false
+    },
+    {
+      "id": "word-count",
+      "name": "Word Count",
+      "provider": "t-code",
+      "description": "Counts the words and lines of the current tab's file and says them in the status bar.",
+      "version": "1.2.0",
+      "api": "tapi_1",
+      "repository": "https://github.com/suacayipkisi/t-code",
+      "commit": "016ce5b8ef6e779d64f9ce4086dd87933f959451",
+      "path": "plugins/builtin/word-count",
+      "tree-sha256": "4c234635c319861e1c83446d3d879a825ab6dc5699dc5fd25a18640569082f66",
+      "permissions": [],
       "categories": [
         "text"
       ],

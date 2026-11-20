@@ -1,0 +1,17 @@
+{
+  "id": "todos",
+  "name": "TODO Finder",
+  "provider": "t-code",
+  "description": "TODO, FIXME, XXX and HACK comments in the project: pick one to go to it, or list them in the Problems panel. Written in Rust, built once with cargo.",
+  "version": "0.1.0",
+  "api": "tapi_1",
+  "repository": "https://github.com/suacayipkisi/t-code",
+  "commit": "016ce5b8ef6e779d64f9ce4086dd87933f959451",
+  "path": "plugins/builtin/todos",
+  "tree-sha256": "3d0ea8919fbaa25a1626088b3ea44d013c038774378a1a457296ca10dc6aae7f",
+  "permissions": [],
+  "categories": [
+    "text"
+  ],
+  "reviewed": false
+}
