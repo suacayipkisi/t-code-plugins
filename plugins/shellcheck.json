@@ -1,14 +1,14 @@
 {
   "id": "shellcheck",
   "name": "ShellCheck",
-  "provider": "suacayipkisi",
+  "provider": "t-code",
   "description": "ShellCheck's warnings in the Problems panel and the editor whenever a shell script is opened or saved.",
   "version": "1.0.0",
   "api": "tapi_1",
   "repository": "https://github.com/suacayipkisi/t-code",
-  "commit": "68f395b47a8ddbf456d9fc6025b89b469c500f09",
+  "commit": "e9d6cd11d1f893ba4f51ec9bec429f3fba171cf8",
   "path": "plugins/builtin/shellcheck",
-  "tree-sha256": "c7c0a725b79b1d68cc16621ecb8c05788d5ad3fad047cc7df688c853952cae36",
+  "tree-sha256": "c9c0844fc937c29fbc656f29d699a9c9f49928e7aa8bf629d92426252774b0a5",
   "permissions": [
     "start"
   ],

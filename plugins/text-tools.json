@@ -1,14 +1,14 @@
 {
   "id": "text-tools",
   "name": "Text Tools",
-  "provider": "suacayipkisi",
+  "provider": "t-code",
   "description": "Change case, sort and dedupe lines, base64, URL encoding, JSON formatting, a UUID or a date.",
   "version": "1.0.0",
   "api": "tapi_1",
   "repository": "https://github.com/suacayipkisi/t-code",
-  "commit": "68f395b47a8ddbf456d9fc6025b89b469c500f09",
+  "commit": "e9d6cd11d1f893ba4f51ec9bec429f3fba171cf8",
   "path": "plugins/builtin/text-tools",
-  "tree-sha256": "5a01b39257a35b971c6afb86867d02103531769c07704bd4ab939774d0eb119a",
+  "tree-sha256": "b3d62ccbef20de0a5fc60827f9718a18bb635ea7c6343824d35e510373bc2cdb",
   "permissions": [
     "edit"
   ],
