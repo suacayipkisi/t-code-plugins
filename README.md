@@ -55,7 +55,8 @@ compresses its archives. Symbolic links make a folder unfit.
    `tools/tree_hash.py <plugin folder>` gives `tree-sha256`).
 3. Run `tools/build_index.py` and `tools/check.py plugins/<id>.json`, and commit the entry and
    `index.json`.
-4. Open a pull request. CI checks it (below); when it passes, it is merged with `"reviewed": false`.
+4. Open a pull request. CI checks it (below); when it passes, it is merged with `"reviewed": false`
+   and a maintainer signs the new index (see [Signing](#signing)).
 
 Updating is the same with a new `commit` and `tree-sha256`. A new commit always starts unreviewed.
 
@@ -92,6 +93,25 @@ commit, t-code marks the plugin **not reviewed yet** and warns three times: when
 read that exact commit sets `"reviewed": true`; t-code then drops the warnings for it.
 
 Maintainers are listed in `MAINTAINERS`.
+
+## Signing
+
+t-code trusts `index.json` only with a good `index.json.sig` beside it: an Ed25519 signature over
+its exact bytes, by the key in `PUBLIC_KEY` (t-code holds the same key). When the signature is
+missing or does not match, t-code keeps showing the last index it checked and says why.
+
+After merging anything that changes `index.json`, a maintainer signs it again and pushes the
+signature:
+
+```sh
+tools/sign_index.py ~/.config/t-code-registry/signing-key   # writes index.json.sig
+tools/sign_index.py --check                                  # what CI runs on main
+```
+
+The signing key never goes to GitHub, not even as a secret: whoever holds it decides what every
+t-code installs. `tools/sign_index.py --new-key <file>` makes one and prints its public key, for
+`PUBLIC_KEY` and t-code's `REGISTRY_PUBLIC_KEY`; a new key needs a t-code release that carries it.
+Only maintainers change `index.json.sig` and `PUBLIC_KEY` (they are outside `plugins/`).
 
 ## Removing
 

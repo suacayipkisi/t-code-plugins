@@ -28,6 +28,9 @@ jobs:
         run: python3 tools/test_tools.py
       - name: index.json is up to date
         run: python3 tools/build_index.py --check
+      - name: index.json is signed
+        if: github.event_name == 'push'
+        run: python3 tools/sign_index.py --check
       - name: The pull request's entries
         if: github.event_name == 'pull_request'
         run: >

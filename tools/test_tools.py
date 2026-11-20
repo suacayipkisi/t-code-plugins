@@ -205,6 +205,28 @@ class Guard(unittest.TestCase):
         self.assertIn("index.json is out of date", self.problems())
 
 
+class Signing(unittest.TestCase):
+    def test_sign_and_verify(self):
+        import sign_index
+        seed = bytes(range(32))
+        key = sign_index.public_key(seed)
+        signature = sign_index.sign(seed, b"index")
+        self.assertTrue(sign_index.verify(key, b"index", signature))
+        self.assertFalse(sign_index.verify(key, b"indey", signature))
+        self.assertFalse(sign_index.verify(key, b"index", signature[:63] + bytes([signature[63] ^ 1])))
+        s = int.from_bytes(signature[32:], "little") + sign_index.L  # the same S, written differently
+        self.assertFalse(sign_index.verify(key, b"index", signature[:32] + s.to_bytes(32, "little")))
+
+    def test_rfc8032_vector(self):
+        """RFC 8032, 7.1, TEST 1: the empty message."""
+        import sign_index
+        seed = bytes.fromhex("9d61b19deffd5a60ba844af492ec2cc44449c5697b326919703bac031cae7f60")
+        self.assertEqual(sign_index.public_key(seed).hex(),
+                         "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a")
+        self.assertEqual(sign_index.sign(seed, b"").hex(),
+                         "e5564300c360ac729086e2cc806e828a84877f1eb8e5d974d873e065224901555fb8821590a33bacc61e39701cf9b46bd25bf5f0595bbe24655141438e7a100b")
+
+
 class NewEntry(unittest.TestCase):
     def test_entry_matches_check(self):
         import new_entry
