@@ -24,7 +24,7 @@ def entry_for(repository, commit, path, categories, download=None):
     with tempfile.TemporaryDirectory() as tmp:
         folder = (download or check.download)(pin, tmp)
         manifest = json.loads((folder / "plugin.json").read_text())
-        return {
+        entry = {
             "id": manifest.get("id", folder.name),
             "name": manifest["name"],
             "provider": check.provider_of(manifest, repository),
@@ -39,6 +39,9 @@ def entry_for(repository, commit, path, categories, download=None):
             "categories": categories,
             "reviewed": False,
         }
+        if manifest.get("requires"):
+            entry["requires"] = manifest["requires"]
+        return entry
 
 
 def main():

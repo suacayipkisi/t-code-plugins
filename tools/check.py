@@ -104,6 +104,9 @@ def check_entry(path, entry, old, actor):
     unknown = set(entry.get("permissions") or []) - PERMISSIONS
     if unknown:
         problems.append(f"permissions: unknown {sorted(unknown)}")
+    requires = entry.get("requires", [])
+    if not isinstance(requires, list) or not all(isinstance(need, dict) for need in requires):
+        problems.append("requires: a list of objects (the same as in plugin.json)")
     for key in ("name", "provider", "description", "version", "api"):
         if not isinstance(entry.get(key), str) or not entry[key]:
             problems.append(f"{key}: a string (the same as in plugin.json)")
@@ -266,6 +269,8 @@ def check_commit(entry):
                 problems.append(f"{key}: the entry says {entry.get(key)!r}, plugin.json {value!r}")
         if sorted(manifest.get("permissions") or []) != sorted(entry.get("permissions") or []):
             problems.append("permissions: not the same as plugin.json's")
+        if (manifest.get("requires") or []) != (entry.get("requires") or []):
+            problems.append("requires: not the same as plugin.json's")
         problems += check_files(folder, manifest)
         problems += smoke(folder, manifest)
     return problems

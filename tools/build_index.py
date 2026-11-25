@@ -10,7 +10,7 @@ import sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 FIELDS = ["id", "name", "provider", "description", "version", "api", "repository", "commit", "path",
-          "tree-sha256", "permissions", "categories", "reviewed"]
+          "tree-sha256", "permissions", "categories", "requires", "reviewed"]
 
 
 def render(entries):

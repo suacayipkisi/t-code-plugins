@@ -33,7 +33,7 @@ How plugins work (the manifest, the socket, permissions): t-code's
 | Field | Meaning |
 |---|---|
 | `id` | The plugin's id, the file's name; lowercase letters, digits and `-`. |
-| `name`, `description`, `version`, `api`, `permissions` | The same as in the plugin's `plugin.json` at that commit (CI compares). |
+| `name`, `description`, `version`, `api`, `permissions`, `requires` | The same as in the plugin's `plugin.json` at that commit (CI compares; `requires` only when the plugin has one, and `tools/new_entry.py` copies it). |
 | `provider` | Who publishes the plugin, shown next to it in t-code: `plugin.json`'s `provider`, or the repository's owner when it has none (CI compares). |
 | `repository` | `https://github.com/<owner>/<repo>`. |
 | `commit` | The full commit id t-code installs. Not a branch or a tag: those move. |

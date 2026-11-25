@@ -135,6 +135,10 @@ class Files(unittest.TestCase):
             problems = "\n".join(check.check_commit(entry(name="Fix", provider="t-code", description=None, version=None,
                                                          api=None)))
             self.assertIn("provider: the entry says 't-code', plugin.json 'someone'", problems)
+            # the fixture's plugin.json needs nothing: an entry may not say it needs something
+            problems = "\n".join(check.check_commit(entry(name="Fix", description=None, version=None, api=None,
+                                                         requires=[{"program": "cargo"}])))
+            self.assertIn("requires: not the same as plugin.json's", problems)
         finally:
             check.download = real
 
