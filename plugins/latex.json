@@ -6,9 +6,9 @@
   "version": "0.1.0",
   "api": "tapi_1",
   "repository": "https://github.com/suacayipkisi/t-code",
-  "commit": "0333e7ea4ddac6f10223f4c8318b1beaf5aabdda",
+  "commit": "38ce7ae42d80f103a7a864517d2ccb40184c55ac",
   "path": "plugins/builtin/latex",
-  "tree-sha256": "e77f941c46210e4a31a97dfa7e45b390a345010d075ddde2b0766bf5d8788745",
+  "tree-sha256": "520ddb68d6c37eaeeabddce2e8e204e6dd174383a76d77926e09e25d1911d24d",
   "permissions": [
     "start"
   ],
