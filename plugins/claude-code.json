@@ -6,9 +6,9 @@
   "version": "0.2.0",
   "api": "tapi_1",
   "repository": "https://github.com/suacayipkisi/t-code",
-  "commit": "38ce7ae42d80f103a7a864517d2ccb40184c55ac",
+  "commit": "2d43d213590a6e4cf52517ae152eb6a2c6687e9a",
   "path": "plugins/builtin/claude-code",
-  "tree-sha256": "d2720e918253e5276d9566abc12bbb16f7cfc8faffdf8fd65a7f6bd95eab1ec7",
+  "tree-sha256": "b126bbd9111ef7acfb4ca38660d5f536d6d2277b95afad66fc80a6e1204ffdd4",
   "permissions": [
     "edit",
     "network",
