@@ -6,14 +6,41 @@
   "version": "0.1.0",
   "api": "tapi_1",
   "repository": "https://github.com/suacayipkisi/t-code",
-  "commit": "be0bc548497ace249375ce6cbbcc60ee97edd786",
+  "commit": "0333e7ea4ddac6f10223f4c8318b1beaf5aabdda",
   "path": "plugins/builtin/latex",
-  "tree-sha256": "7b86525c87b040a1dca6fe02f843f45403f82f299fb590016924f04e1936a168",
+  "tree-sha256": "e77f941c46210e4a31a97dfa7e45b390a345010d075ddde2b0766bf5d8788745",
   "permissions": [
     "start"
   ],
   "categories": [
     "documents"
   ],
-  "reviewed": false
+  "reviewed": false,
+  "requires": [
+    {
+      "program": "cargo",
+      "for": "building the plugin once",
+      "install": {
+        "fedora": "sudo dnf install cargo",
+        "debian": "sudo apt install cargo",
+        "arch": "sudo pacman -S rust",
+        "opensuse": "sudo zypper install cargo"
+      }
+    },
+    {
+      "program": [
+        "latexmk",
+        "tectonic",
+        "pdflatex",
+        "typst"
+      ],
+      "for": "building the documents",
+      "install": {
+        "fedora": "sudo dnf install latexmk texlive-scheme-basic",
+        "debian": "sudo apt install latexmk texlive-latex-recommended",
+        "arch": "sudo pacman -S texlive-binextra texlive-latex",
+        "opensuse": "sudo zypper install texlive-latexmk texlive-scheme-basic"
+      }
+    }
+  ]
 }

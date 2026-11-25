@@ -6,12 +6,24 @@
   "version": "0.1.0",
   "api": "tapi_1",
   "repository": "https://github.com/suacayipkisi/t-code",
-  "commit": "016ce5b8ef6e779d64f9ce4086dd87933f959451",
+  "commit": "0333e7ea4ddac6f10223f4c8318b1beaf5aabdda",
   "path": "plugins/builtin/todos",
-  "tree-sha256": "3d0ea8919fbaa25a1626088b3ea44d013c038774378a1a457296ca10dc6aae7f",
+  "tree-sha256": "ab7a42c1d00a3e7930beea6f5b82dd48e592c65d158b265396057e86f9187a20",
   "permissions": [],
   "categories": [
     "text"
   ],
-  "reviewed": false
+  "reviewed": false,
+  "requires": [
+    {
+      "program": "cargo",
+      "for": "building the plugin once",
+      "install": {
+        "fedora": "sudo dnf install cargo",
+        "debian": "sudo apt install cargo",
+        "arch": "sudo pacman -S rust",
+        "opensuse": "sudo zypper install cargo"
+      }
+    }
+  ]
 }

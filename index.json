@@ -5,22 +5,40 @@
       "id": "claude-code",
       "name": "Claude Code",
       "provider": "t-code",
-      "description": "Claude Code in a terminal tab, the selection sent to it, answers streamed into a side view, a review in Problems and a selection rewritten in place. Needs the claude command; written in Rust, built once with cargo.",
-      "version": "0.1.0",
+      "description": "Claude Code in a panel on the right: a conversation in Markdown with Ask, Read and Edit modes, its permission questions as buttons; the selection or file referenced in it, a review in Problems and a selection rewritten in place. Needs Claude Code installed and signed in; written in Rust, built once with cargo.",
+      "version": "0.2.0",
       "api": "tapi_1",
       "repository": "https://github.com/suacayipkisi/t-code",
-      "commit": "83418e1f7fae2206fc68c8ecbc08055d639d9fe6",
+      "commit": "0333e7ea4ddac6f10223f4c8318b1beaf5aabdda",
       "path": "plugins/builtin/claude-code",
-      "tree-sha256": "e095a5b5cfbf6ee874e25881eaa813d48dbf48d6e39cd6081a00af0b15f6f037",
+      "tree-sha256": "bce769d50150634099b165dc8c48de83343d29e025bdefb55857592d729e1bee",
       "permissions": [
         "edit",
         "network",
-        "start",
-        "terminal"
+        "start"
       ],
       "categories": [
         "ai",
         "assistant"
+      ],
+      "requires": [
+        {
+          "program": "cargo",
+          "for": "building the plugin once",
+          "install": {
+            "fedora": "sudo dnf install cargo",
+            "debian": "sudo apt install cargo",
+            "arch": "sudo pacman -S rust",
+            "opensuse": "sudo zypper install cargo"
+          }
+        },
+        {
+          "program": "claude",
+          "for": "the chat, review and rewrite: Claude Code, installed and signed in (claude auth login)",
+          "install": {
+            "any": "npm install -g @anthropic-ai/claude-code"
+          }
+        }
       ],
       "reviewed": false
     },
@@ -32,15 +50,45 @@
       "version": "0.1.0",
       "api": "tapi_1",
       "repository": "https://github.com/suacayipkisi/t-code",
-      "commit": "016ce5b8ef6e779d64f9ce4086dd87933f959451",
+      "commit": "0333e7ea4ddac6f10223f4c8318b1beaf5aabdda",
       "path": "plugins/builtin/cmake",
-      "tree-sha256": "1d2f79afdadf047a1a9cc98bb4c32d7e6d336272a28c71e3d02e8042e4df505f",
+      "tree-sha256": "79045cc8d28a2a6bbb4ee0e54d906c3a4673983f3556ff7859e11756965095e8",
       "permissions": [
         "terminal"
       ],
       "categories": [
         "build",
         "languages"
+      ],
+      "requires": [
+        {
+          "program": "python3",
+          "for": "running the plugin",
+          "install": {
+            "fedora": "sudo dnf install python3",
+            "debian": "sudo apt install python3",
+            "arch": "sudo pacman -S python",
+            "opensuse": "sudo zypper install python3"
+          }
+        },
+        {
+          "program": "cmake",
+          "for": "Configure and Build",
+          "install": {
+            "fedora": "sudo dnf install cmake",
+            "debian": "sudo apt install cmake",
+            "arch": "sudo pacman -S cmake",
+            "opensuse": "sudo zypper install cmake"
+          }
+        },
+        {
+          "program": "cmake-language-server",
+          "for": "its language server (t-code's own neocmakelsp wins when installed)",
+          "optional": true,
+          "install": {
+            "any": "pip install --user cmake-language-server"
+          }
+        }
       ],
       "reviewed": false
     },
@@ -52,12 +100,34 @@
       "version": "0.1.0",
       "api": "tapi_1",
       "repository": "https://github.com/suacayipkisi/t-code",
-      "commit": "58a1856a4eb412313a6082f6dc94fe67e1de6872",
+      "commit": "0333e7ea4ddac6f10223f4c8318b1beaf5aabdda",
       "path": "plugins/builtin/commit-msg",
-      "tree-sha256": "60ca8f99b29256f3497fa2db0a6e47a9c85fd721e591c69cafeba49e440f78d0",
+      "tree-sha256": "267ccc3606fc5808a659ac6abb14946392602a15de42f728cdbf10270b02bf60",
       "permissions": [],
       "categories": [
         "git"
+      ],
+      "requires": [
+        {
+          "program": "go",
+          "for": "building the plugin once",
+          "install": {
+            "fedora": "sudo dnf install golang",
+            "debian": "sudo apt install golang-go",
+            "arch": "sudo pacman -S go",
+            "opensuse": "sudo zypper install go"
+          }
+        },
+        {
+          "program": "git",
+          "for": "reading the staged files",
+          "install": {
+            "fedora": "sudo dnf install git",
+            "debian": "sudo apt install git",
+            "arch": "sudo pacman -S git",
+            "opensuse": "sudo zypper install git"
+          }
+        }
       ],
       "reviewed": false
     },
@@ -69,12 +139,34 @@
       "version": "0.1.0",
       "api": "tapi_1",
       "repository": "https://github.com/suacayipkisi/t-code",
-      "commit": "be1f10c7d63b23bad3ad5bcc44d199c713fe59af",
+      "commit": "0333e7ea4ddac6f10223f4c8318b1beaf5aabdda",
       "path": "plugins/builtin/forge-link",
-      "tree-sha256": "07f32506b1e438b90ba23454df9448e66c1996871288fa71e07dd295e99440d3",
+      "tree-sha256": "b59b137f770833b370f165eac3fe5b959450cf7ed453679358c59d402fd81a13",
       "permissions": [],
       "categories": [
         "git"
+      ],
+      "requires": [
+        {
+          "program": "perl",
+          "for": "running the plugin",
+          "install": {
+            "fedora": "sudo dnf install perl",
+            "debian": "sudo apt install perl",
+            "arch": "sudo pacman -S perl",
+            "opensuse": "sudo zypper install perl"
+          }
+        },
+        {
+          "program": "git",
+          "for": "the commit and the remote",
+          "install": {
+            "fedora": "sudo dnf install git",
+            "debian": "sudo apt install git",
+            "arch": "sudo pacman -S git",
+            "opensuse": "sudo zypper install git"
+          }
+        }
       ],
       "reviewed": false
     },
@@ -86,15 +178,27 @@
       "version": "0.1.0",
       "api": "tapi_1",
       "repository": "https://github.com/suacayipkisi/t-code",
-      "commit": "b0e788588ec5fac93515dd1c409b24361564118d",
+      "commit": "0333e7ea4ddac6f10223f4c8318b1beaf5aabdda",
       "path": "plugins/builtin/format-on-save",
-      "tree-sha256": "a7f10bda4c7e4904be4ad7854502b49b82b92e44d89ccb22da105e41c15596f9",
+      "tree-sha256": "4f51c2ac91390ccfd8573c7ce75152cc3db6c81ebd5b7ecb16df110f63efec01",
       "permissions": [
         "edit",
         "start"
       ],
       "categories": [
         "formatters"
+      ],
+      "requires": [
+        {
+          "program": "go",
+          "for": "building the plugin once",
+          "install": {
+            "fedora": "sudo dnf install golang",
+            "debian": "sudo apt install golang-go",
+            "arch": "sudo pacman -S go",
+            "opensuse": "sudo zypper install go"
+          }
+        }
       ],
       "reviewed": false
     },
@@ -106,9 +210,9 @@
       "version": "0.2.0",
       "api": "tapi_1",
       "repository": "https://github.com/suacayipkisi/t-code",
-      "commit": "e9d6cd11d1f893ba4f51ec9bec429f3fba171cf8",
+      "commit": "0333e7ea4ddac6f10223f4c8318b1beaf5aabdda",
       "path": "plugins/builtin/java",
-      "tree-sha256": "d884e1ecd74a89407d8cc31596c4e8366f3137c94f432fabd67660442a690d75",
+      "tree-sha256": "67d5fe2c82c1ee1a3914f1847d32378617ddddea92f7e2084be7be0ba63fb61d",
       "permissions": [
         "network",
         "start",
@@ -116,6 +220,28 @@
       ],
       "categories": [
         "languages"
+      ],
+      "requires": [
+        {
+          "program": "python3",
+          "for": "running the plugin",
+          "install": {
+            "fedora": "sudo dnf install python3",
+            "debian": "sudo apt install python3",
+            "arch": "sudo pacman -S python",
+            "opensuse": "sudo zypper install python3"
+          }
+        },
+        {
+          "program": "java",
+          "for": "jdtls and running Java (a JDK 21 or newer)",
+          "install": {
+            "fedora": "sudo dnf install java-21-openjdk-devel",
+            "debian": "sudo apt install openjdk-21-jdk",
+            "arch": "sudo pacman -S jdk21-openjdk",
+            "opensuse": "sudo zypper install java-21-openjdk-devel"
+          }
+        }
       ],
       "reviewed": false
     },
@@ -127,14 +253,41 @@
       "version": "0.1.0",
       "api": "tapi_1",
       "repository": "https://github.com/suacayipkisi/t-code",
-      "commit": "be0bc548497ace249375ce6cbbcc60ee97edd786",
+      "commit": "0333e7ea4ddac6f10223f4c8318b1beaf5aabdda",
       "path": "plugins/builtin/latex",
-      "tree-sha256": "7b86525c87b040a1dca6fe02f843f45403f82f299fb590016924f04e1936a168",
+      "tree-sha256": "e77f941c46210e4a31a97dfa7e45b390a345010d075ddde2b0766bf5d8788745",
       "permissions": [
         "start"
       ],
       "categories": [
         "documents"
+      ],
+      "requires": [
+        {
+          "program": "cargo",
+          "for": "building the plugin once",
+          "install": {
+            "fedora": "sudo dnf install cargo",
+            "debian": "sudo apt install cargo",
+            "arch": "sudo pacman -S rust",
+            "opensuse": "sudo zypper install cargo"
+          }
+        },
+        {
+          "program": [
+            "latexmk",
+            "tectonic",
+            "pdflatex",
+            "typst"
+          ],
+          "for": "building the documents",
+          "install": {
+            "fedora": "sudo dnf install latexmk texlive-scheme-basic",
+            "debian": "sudo apt install latexmk texlive-latex-recommended",
+            "arch": "sudo pacman -S texlive-binextra texlive-latex",
+            "opensuse": "sudo zypper install texlive-latexmk texlive-scheme-basic"
+          }
+        }
       ],
       "reviewed": false
     },
@@ -146,14 +299,35 @@
       "version": "0.2.0",
       "api": "tapi_1",
       "repository": "https://github.com/suacayipkisi/t-code",
-      "commit": "016ce5b8ef6e779d64f9ce4086dd87933f959451",
+      "commit": "0333e7ea4ddac6f10223f4c8318b1beaf5aabdda",
       "path": "plugins/builtin/matlab",
-      "tree-sha256": "28032e0eb3b2381c4ffa0e12f64371bce72d6b35af991ed357a534f2887c008e",
+      "tree-sha256": "f977a1bb545bb85407cd3d170e71e15d7fad4e0efe9b0c99292000d354c6aa2c",
       "permissions": [
         "terminal"
       ],
       "categories": [
         "languages"
+      ],
+      "requires": [
+        {
+          "program": "python3",
+          "for": "running the plugin",
+          "install": {
+            "fedora": "sudo dnf install python3",
+            "debian": "sudo apt install python3",
+            "arch": "sudo pacman -S python",
+            "opensuse": "sudo zypper install python3"
+          }
+        },
+        {
+          "program": "matlab",
+          "for": "the MATLAB session (licensed: MathWorks' installer)"
+        },
+        {
+          "program": "matlab-language-server",
+          "for": "its language server",
+          "optional": true
+        }
       ],
       "reviewed": false
     },
@@ -165,14 +339,36 @@
       "version": "0.1.0",
       "api": "tapi_1",
       "repository": "https://github.com/suacayipkisi/t-code",
-      "commit": "b2e69fbc939c40a1477e972477d3a8b4c2b37e55",
+      "commit": "0333e7ea4ddac6f10223f4c8318b1beaf5aabdda",
       "path": "plugins/builtin/octave",
-      "tree-sha256": "d064bc1f10f9ed99a39d412fc89bd0831dea355f006b1a3b9d76e4b909e7a84e",
+      "tree-sha256": "76590018f214a981104655d58f6590b43817fd4855c3628cea8835cc65051dc1",
       "permissions": [
         "terminal"
       ],
       "categories": [
         "languages"
+      ],
+      "requires": [
+        {
+          "program": "python3",
+          "for": "running the plugin",
+          "install": {
+            "fedora": "sudo dnf install python3",
+            "debian": "sudo apt install python3",
+            "arch": "sudo pacman -S python",
+            "opensuse": "sudo zypper install python3"
+          }
+        },
+        {
+          "program": "octave",
+          "for": "the Octave session",
+          "install": {
+            "fedora": "sudo dnf install octave",
+            "debian": "sudo apt install octave",
+            "arch": "sudo pacman -S octave",
+            "opensuse": "sudo zypper install octave"
+          }
+        }
       ],
       "reviewed": false
     },
@@ -184,12 +380,39 @@
       "version": "0.1.0",
       "api": "tapi_1",
       "repository": "https://github.com/suacayipkisi/t-code",
-      "commit": "ff56c07cdc88409a975f2974f5778c8fb9f6dc58",
+      "commit": "0333e7ea4ddac6f10223f4c8318b1beaf5aabdda",
       "path": "plugins/builtin/pomodoro",
-      "tree-sha256": "1e3f31b981c78bbc174cf499a80811ffea3b27928172886a985f946db15cc3e9",
+      "tree-sha256": "faeff2741e7388114a609a1f6b7b0c88a412dac44c469676c48b3574e21f41ee",
       "permissions": [],
       "categories": [
         "fun"
+      ],
+      "requires": [
+        {
+          "program": [
+            "cc",
+            "gcc",
+            "clang"
+          ],
+          "for": "building the plugin once",
+          "install": {
+            "fedora": "sudo dnf install gcc",
+            "debian": "sudo apt install gcc",
+            "arch": "sudo pacman -S gcc",
+            "opensuse": "sudo zypper install gcc"
+          }
+        },
+        {
+          "program": "notify-send",
+          "for": "the desktop notification",
+          "optional": true,
+          "install": {
+            "fedora": "sudo dnf install libnotify",
+            "debian": "sudo apt install libnotify-bin",
+            "arch": "sudo pacman -S libnotify",
+            "opensuse": "sudo zypper install libnotify-tools"
+          }
+        }
       ],
       "reviewed": false
     },
@@ -201,14 +424,36 @@
       "version": "1.0.0",
       "api": "tapi_1",
       "repository": "https://github.com/suacayipkisi/t-code",
-      "commit": "e9d6cd11d1f893ba4f51ec9bec429f3fba171cf8",
+      "commit": "0333e7ea4ddac6f10223f4c8318b1beaf5aabdda",
       "path": "plugins/builtin/shellcheck",
-      "tree-sha256": "c9c0844fc937c29fbc656f29d699a9c9f49928e7aa8bf629d92426252774b0a5",
+      "tree-sha256": "1bc0aa250767c3e8553c7e39838f1aa0fdeae2fd3072e6626c9ad090bf9e4457",
       "permissions": [
         "start"
       ],
       "categories": [
         "linters"
+      ],
+      "requires": [
+        {
+          "program": "python3",
+          "for": "running the plugin",
+          "install": {
+            "fedora": "sudo dnf install python3",
+            "debian": "sudo apt install python3",
+            "arch": "sudo pacman -S python",
+            "opensuse": "sudo zypper install python3"
+          }
+        },
+        {
+          "program": "shellcheck",
+          "for": "the warnings",
+          "install": {
+            "fedora": "sudo dnf install ShellCheck",
+            "debian": "sudo apt install shellcheck",
+            "arch": "sudo pacman -S shellcheck",
+            "opensuse": "sudo zypper install ShellCheck"
+          }
+        }
       ],
       "reviewed": false
     },
@@ -220,15 +465,41 @@
       "version": "0.1.0",
       "api": "tapi_1",
       "repository": "https://github.com/suacayipkisi/t-code",
-      "commit": "ea5e7518e2bc1b045dd20035feba1a44982a7523",
+      "commit": "0333e7ea4ddac6f10223f4c8318b1beaf5aabdda",
       "path": "plugins/builtin/spell",
-      "tree-sha256": "4980993de43c0ab199462564b532891f213f83a29276a578847c64da1a2efe35",
+      "tree-sha256": "4653f87591a11fd9ee7bba47fcf3bd728cb6a1f094530c55dab34e4ee31c7be0",
       "permissions": [
         "edit",
         "start"
       ],
       "categories": [
         "linters"
+      ],
+      "requires": [
+        {
+          "program": [
+            "c++",
+            "g++",
+            "clang++"
+          ],
+          "for": "building the plugin once",
+          "install": {
+            "fedora": "sudo dnf install gcc-c++",
+            "debian": "sudo apt install g++",
+            "arch": "sudo pacman -S gcc",
+            "opensuse": "sudo zypper install gcc-c++"
+          }
+        },
+        {
+          "program": "hunspell",
+          "for": "the spelling and its English dictionary",
+          "install": {
+            "fedora": "sudo dnf install hunspell hunspell-en-US",
+            "debian": "sudo apt install hunspell hunspell-en-us",
+            "arch": "sudo pacman -S hunspell hunspell-en_us",
+            "opensuse": "sudo zypper install hunspell myspell-en_US"
+          }
+        }
       ],
       "reviewed": false
     },
@@ -240,14 +511,26 @@
       "version": "0.1.0",
       "api": "tapi_1",
       "repository": "https://github.com/suacayipkisi/t-code",
-      "commit": "ead4bb11a2d77af66828be92adbd46341db568d0",
+      "commit": "0333e7ea4ddac6f10223f4c8318b1beaf5aabdda",
       "path": "plugins/builtin/targets",
-      "tree-sha256": "8c562bd2e7d6dcbc90c19df1fcb1f1071b32248ced678d8d73c5427d925c6672",
+      "tree-sha256": "564ce5f1d41c51cc673db9db1d40cb95b3da74d7f84bfee978f4e3bef16d9a94",
       "permissions": [
         "terminal"
       ],
       "categories": [
         "build"
+      ],
+      "requires": [
+        {
+          "program": "node",
+          "for": "running the plugin (Node.js 18 or newer)",
+          "install": {
+            "fedora": "sudo dnf install nodejs",
+            "debian": "sudo apt install nodejs",
+            "arch": "sudo pacman -S nodejs",
+            "opensuse": "sudo zypper install nodejs"
+          }
+        }
       ],
       "reviewed": false
     },
@@ -259,14 +542,26 @@
       "version": "1.0.0",
       "api": "tapi_1",
       "repository": "https://github.com/suacayipkisi/t-code",
-      "commit": "e9d6cd11d1f893ba4f51ec9bec429f3fba171cf8",
+      "commit": "0333e7ea4ddac6f10223f4c8318b1beaf5aabdda",
       "path": "plugins/builtin/text-tools",
-      "tree-sha256": "b3d62ccbef20de0a5fc60827f9718a18bb635ea7c6343824d35e510373bc2cdb",
+      "tree-sha256": "5ffe83c60085402f7e950645e58db72dc3c72a34459f0b51f039ee5369cfee84",
       "permissions": [
         "edit"
       ],
       "categories": [
         "text"
+      ],
+      "requires": [
+        {
+          "program": "python3",
+          "for": "running the plugin",
+          "install": {
+            "fedora": "sudo dnf install python3",
+            "debian": "sudo apt install python3",
+            "arch": "sudo pacman -S python",
+            "opensuse": "sudo zypper install python3"
+          }
+        }
       ],
       "reviewed": false
     },
@@ -278,12 +573,24 @@
       "version": "0.1.0",
       "api": "tapi_1",
       "repository": "https://github.com/suacayipkisi/t-code",
-      "commit": "016ce5b8ef6e779d64f9ce4086dd87933f959451",
+      "commit": "0333e7ea4ddac6f10223f4c8318b1beaf5aabdda",
       "path": "plugins/builtin/todos",
-      "tree-sha256": "3d0ea8919fbaa25a1626088b3ea44d013c038774378a1a457296ca10dc6aae7f",
+      "tree-sha256": "ab7a42c1d00a3e7930beea6f5b82dd48e592c65d158b265396057e86f9187a20",
       "permissions": [],
       "categories": [
         "text"
+      ],
+      "requires": [
+        {
+          "program": "cargo",
+          "for": "building the plugin once",
+          "install": {
+            "fedora": "sudo dnf install cargo",
+            "debian": "sudo apt install cargo",
+            "arch": "sudo pacman -S rust",
+            "opensuse": "sudo zypper install cargo"
+          }
+        }
       ],
       "reviewed": false
     },
@@ -295,14 +602,30 @@
       "version": "2.0.0",
       "api": "tapi_1",
       "repository": "https://github.com/suacayipkisi/t-code",
-      "commit": "0266ac7574e756d75f86a5698193ac6c5730444d",
+      "commit": "0333e7ea4ddac6f10223f4c8318b1beaf5aabdda",
       "path": "plugins/builtin/word-count",
-      "tree-sha256": "70ce497a5c78af0fa156423a28c02d3feb8d72fbae37318d9de3c7546dbaee66",
+      "tree-sha256": "e0600a08ae66ce4219c146bc747c51cc776c3f1342824bd2026e9d9e143f712e",
       "permissions": [
         "start"
       ],
       "categories": [
         "text"
+      ],
+      "requires": [
+        {
+          "program": [
+            "c++",
+            "g++",
+            "clang++"
+          ],
+          "for": "building the plugin once",
+          "install": {
+            "fedora": "sudo dnf install gcc-c++",
+            "debian": "sudo apt install g++",
+            "arch": "sudo pacman -S gcc",
+            "opensuse": "sudo zypper install gcc-c++"
+          }
+        }
       ],
       "reviewed": false
     }

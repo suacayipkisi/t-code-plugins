@@ -6,14 +6,36 @@
   "version": "1.0.0",
   "api": "tapi_1",
   "repository": "https://github.com/suacayipkisi/t-code",
-  "commit": "e9d6cd11d1f893ba4f51ec9bec429f3fba171cf8",
+  "commit": "0333e7ea4ddac6f10223f4c8318b1beaf5aabdda",
   "path": "plugins/builtin/shellcheck",
-  "tree-sha256": "c9c0844fc937c29fbc656f29d699a9c9f49928e7aa8bf629d92426252774b0a5",
+  "tree-sha256": "1bc0aa250767c3e8553c7e39838f1aa0fdeae2fd3072e6626c9ad090bf9e4457",
   "permissions": [
     "start"
   ],
   "categories": [
     "linters"
   ],
-  "reviewed": false
+  "reviewed": false,
+  "requires": [
+    {
+      "program": "python3",
+      "for": "running the plugin",
+      "install": {
+        "fedora": "sudo dnf install python3",
+        "debian": "sudo apt install python3",
+        "arch": "sudo pacman -S python",
+        "opensuse": "sudo zypper install python3"
+      }
+    },
+    {
+      "program": "shellcheck",
+      "for": "the warnings",
+      "install": {
+        "fedora": "sudo dnf install ShellCheck",
+        "debian": "sudo apt install shellcheck",
+        "arch": "sudo pacman -S shellcheck",
+        "opensuse": "sudo zypper install ShellCheck"
+      }
+    }
+  ]
 }

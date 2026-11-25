@@ -6,14 +6,36 @@
   "version": "0.1.0",
   "api": "tapi_1",
   "repository": "https://github.com/suacayipkisi/t-code",
-  "commit": "b2e69fbc939c40a1477e972477d3a8b4c2b37e55",
+  "commit": "0333e7ea4ddac6f10223f4c8318b1beaf5aabdda",
   "path": "plugins/builtin/octave",
-  "tree-sha256": "d064bc1f10f9ed99a39d412fc89bd0831dea355f006b1a3b9d76e4b909e7a84e",
+  "tree-sha256": "76590018f214a981104655d58f6590b43817fd4855c3628cea8835cc65051dc1",
   "permissions": [
     "terminal"
   ],
   "categories": [
     "languages"
   ],
-  "reviewed": false
+  "reviewed": false,
+  "requires": [
+    {
+      "program": "python3",
+      "for": "running the plugin",
+      "install": {
+        "fedora": "sudo dnf install python3",
+        "debian": "sudo apt install python3",
+        "arch": "sudo pacman -S python",
+        "opensuse": "sudo zypper install python3"
+      }
+    },
+    {
+      "program": "octave",
+      "for": "the Octave session",
+      "install": {
+        "fedora": "sudo dnf install octave",
+        "debian": "sudo apt install octave",
+        "arch": "sudo pacman -S octave",
+        "opensuse": "sudo zypper install octave"
+      }
+    }
+  ]
 }

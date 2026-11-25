@@ -6,14 +6,35 @@
   "version": "0.2.0",
   "api": "tapi_1",
   "repository": "https://github.com/suacayipkisi/t-code",
-  "commit": "016ce5b8ef6e779d64f9ce4086dd87933f959451",
+  "commit": "0333e7ea4ddac6f10223f4c8318b1beaf5aabdda",
   "path": "plugins/builtin/matlab",
-  "tree-sha256": "28032e0eb3b2381c4ffa0e12f64371bce72d6b35af991ed357a534f2887c008e",
+  "tree-sha256": "f977a1bb545bb85407cd3d170e71e15d7fad4e0efe9b0c99292000d354c6aa2c",
   "permissions": [
     "terminal"
   ],
   "categories": [
     "languages"
   ],
-  "reviewed": false
+  "reviewed": false,
+  "requires": [
+    {
+      "program": "python3",
+      "for": "running the plugin",
+      "install": {
+        "fedora": "sudo dnf install python3",
+        "debian": "sudo apt install python3",
+        "arch": "sudo pacman -S python",
+        "opensuse": "sudo zypper install python3"
+      }
+    },
+    {
+      "program": "matlab",
+      "for": "the MATLAB session (licensed: MathWorks' installer)"
+    },
+    {
+      "program": "matlab-language-server",
+      "for": "its language server",
+      "optional": true
+    }
+  ]
 }

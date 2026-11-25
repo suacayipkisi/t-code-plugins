@@ -6,9 +6,9 @@
   "version": "0.1.0",
   "api": "tapi_1",
   "repository": "https://github.com/suacayipkisi/t-code",
-  "commit": "016ce5b8ef6e779d64f9ce4086dd87933f959451",
+  "commit": "0333e7ea4ddac6f10223f4c8318b1beaf5aabdda",
   "path": "plugins/builtin/cmake",
-  "tree-sha256": "1d2f79afdadf047a1a9cc98bb4c32d7e6d336272a28c71e3d02e8042e4df505f",
+  "tree-sha256": "79045cc8d28a2a6bbb4ee0e54d906c3a4673983f3556ff7859e11756965095e8",
   "permissions": [
     "terminal"
   ],
@@ -16,5 +16,35 @@
     "build",
     "languages"
   ],
-  "reviewed": false
+  "reviewed": false,
+  "requires": [
+    {
+      "program": "python3",
+      "for": "running the plugin",
+      "install": {
+        "fedora": "sudo dnf install python3",
+        "debian": "sudo apt install python3",
+        "arch": "sudo pacman -S python",
+        "opensuse": "sudo zypper install python3"
+      }
+    },
+    {
+      "program": "cmake",
+      "for": "Configure and Build",
+      "install": {
+        "fedora": "sudo dnf install cmake",
+        "debian": "sudo apt install cmake",
+        "arch": "sudo pacman -S cmake",
+        "opensuse": "sudo zypper install cmake"
+      }
+    },
+    {
+      "program": "cmake-language-server",
+      "for": "its language server (t-code's own neocmakelsp wins when installed)",
+      "optional": true,
+      "install": {
+        "any": "pip install --user cmake-language-server"
+      }
+    }
+  ]
 }

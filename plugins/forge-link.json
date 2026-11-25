@@ -6,12 +6,34 @@
   "version": "0.1.0",
   "api": "tapi_1",
   "repository": "https://github.com/suacayipkisi/t-code",
-  "commit": "be1f10c7d63b23bad3ad5bcc44d199c713fe59af",
+  "commit": "0333e7ea4ddac6f10223f4c8318b1beaf5aabdda",
   "path": "plugins/builtin/forge-link",
-  "tree-sha256": "07f32506b1e438b90ba23454df9448e66c1996871288fa71e07dd295e99440d3",
+  "tree-sha256": "b59b137f770833b370f165eac3fe5b959450cf7ed453679358c59d402fd81a13",
   "permissions": [],
   "categories": [
     "git"
   ],
-  "reviewed": false
+  "reviewed": false,
+  "requires": [
+    {
+      "program": "perl",
+      "for": "running the plugin",
+      "install": {
+        "fedora": "sudo dnf install perl",
+        "debian": "sudo apt install perl",
+        "arch": "sudo pacman -S perl",
+        "opensuse": "sudo zypper install perl"
+      }
+    },
+    {
+      "program": "git",
+      "for": "the commit and the remote",
+      "install": {
+        "fedora": "sudo dnf install git",
+        "debian": "sudo apt install git",
+        "arch": "sudo pacman -S git",
+        "opensuse": "sudo zypper install git"
+      }
+    }
+  ]
 }

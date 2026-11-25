@@ -6,9 +6,9 @@
   "version": "0.1.0",
   "api": "tapi_1",
   "repository": "https://github.com/suacayipkisi/t-code",
-  "commit": "ea5e7518e2bc1b045dd20035feba1a44982a7523",
+  "commit": "0333e7ea4ddac6f10223f4c8318b1beaf5aabdda",
   "path": "plugins/builtin/spell",
-  "tree-sha256": "4980993de43c0ab199462564b532891f213f83a29276a578847c64da1a2efe35",
+  "tree-sha256": "4653f87591a11fd9ee7bba47fcf3bd728cb6a1f094530c55dab34e4ee31c7be0",
   "permissions": [
     "edit",
     "start"
@@ -16,5 +16,31 @@
   "categories": [
     "linters"
   ],
-  "reviewed": false
+  "reviewed": false,
+  "requires": [
+    {
+      "program": [
+        "c++",
+        "g++",
+        "clang++"
+      ],
+      "for": "building the plugin once",
+      "install": {
+        "fedora": "sudo dnf install gcc-c++",
+        "debian": "sudo apt install g++",
+        "arch": "sudo pacman -S gcc",
+        "opensuse": "sudo zypper install gcc-c++"
+      }
+    },
+    {
+      "program": "hunspell",
+      "for": "the spelling and its English dictionary",
+      "install": {
+        "fedora": "sudo dnf install hunspell hunspell-en-US",
+        "debian": "sudo apt install hunspell hunspell-en-us",
+        "arch": "sudo pacman -S hunspell hunspell-en_us",
+        "opensuse": "sudo zypper install hunspell myspell-en_US"
+      }
+    }
+  ]
 }

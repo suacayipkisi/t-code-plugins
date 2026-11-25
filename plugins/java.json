@@ -6,9 +6,9 @@
   "version": "0.2.0",
   "api": "tapi_1",
   "repository": "https://github.com/suacayipkisi/t-code",
-  "commit": "e9d6cd11d1f893ba4f51ec9bec429f3fba171cf8",
+  "commit": "0333e7ea4ddac6f10223f4c8318b1beaf5aabdda",
   "path": "plugins/builtin/java",
-  "tree-sha256": "d884e1ecd74a89407d8cc31596c4e8366f3137c94f432fabd67660442a690d75",
+  "tree-sha256": "67d5fe2c82c1ee1a3914f1847d32378617ddddea92f7e2084be7be0ba63fb61d",
   "permissions": [
     "network",
     "start",
@@ -17,5 +17,27 @@
   "categories": [
     "languages"
   ],
-  "reviewed": false
+  "reviewed": false,
+  "requires": [
+    {
+      "program": "python3",
+      "for": "running the plugin",
+      "install": {
+        "fedora": "sudo dnf install python3",
+        "debian": "sudo apt install python3",
+        "arch": "sudo pacman -S python",
+        "opensuse": "sudo zypper install python3"
+      }
+    },
+    {
+      "program": "java",
+      "for": "jdtls and running Java (a JDK 21 or newer)",
+      "install": {
+        "fedora": "sudo dnf install java-21-openjdk-devel",
+        "debian": "sudo apt install openjdk-21-jdk",
+        "arch": "sudo pacman -S jdk21-openjdk",
+        "opensuse": "sudo zypper install java-21-openjdk-devel"
+      }
+    }
+  ]
 }

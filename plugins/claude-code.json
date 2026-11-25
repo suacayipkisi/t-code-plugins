@@ -2,22 +2,40 @@
   "id": "claude-code",
   "name": "Claude Code",
   "provider": "t-code",
-  "description": "Claude Code in a terminal tab, the selection sent to it, answers streamed into a side view, a review in Problems and a selection rewritten in place. Needs the claude command; written in Rust, built once with cargo.",
-  "version": "0.1.0",
+  "description": "Claude Code in a panel on the right: a conversation in Markdown with Ask, Read and Edit modes, its permission questions as buttons; the selection or file referenced in it, a review in Problems and a selection rewritten in place. Needs Claude Code installed and signed in; written in Rust, built once with cargo.",
+  "version": "0.2.0",
   "api": "tapi_1",
   "repository": "https://github.com/suacayipkisi/t-code",
-  "commit": "83418e1f7fae2206fc68c8ecbc08055d639d9fe6",
+  "commit": "0333e7ea4ddac6f10223f4c8318b1beaf5aabdda",
   "path": "plugins/builtin/claude-code",
-  "tree-sha256": "e095a5b5cfbf6ee874e25881eaa813d48dbf48d6e39cd6081a00af0b15f6f037",
+  "tree-sha256": "bce769d50150634099b165dc8c48de83343d29e025bdefb55857592d729e1bee",
   "permissions": [
     "edit",
     "network",
-    "start",
-    "terminal"
+    "start"
   ],
   "categories": [
     "ai",
     "assistant"
   ],
-  "reviewed": false
+  "reviewed": false,
+  "requires": [
+    {
+      "program": "cargo",
+      "for": "building the plugin once",
+      "install": {
+        "fedora": "sudo dnf install cargo",
+        "debian": "sudo apt install cargo",
+        "arch": "sudo pacman -S rust",
+        "opensuse": "sudo zypper install cargo"
+      }
+    },
+    {
+      "program": "claude",
+      "for": "the chat, review and rewrite: Claude Code, installed and signed in (claude auth login)",
+      "install": {
+        "any": "npm install -g @anthropic-ai/claude-code"
+      }
+    }
+  ]
 }

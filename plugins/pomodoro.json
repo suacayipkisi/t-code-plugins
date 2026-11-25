@@ -6,12 +6,39 @@
   "version": "0.1.0",
   "api": "tapi_1",
   "repository": "https://github.com/suacayipkisi/t-code",
-  "commit": "ff56c07cdc88409a975f2974f5778c8fb9f6dc58",
+  "commit": "0333e7ea4ddac6f10223f4c8318b1beaf5aabdda",
   "path": "plugins/builtin/pomodoro",
-  "tree-sha256": "1e3f31b981c78bbc174cf499a80811ffea3b27928172886a985f946db15cc3e9",
+  "tree-sha256": "faeff2741e7388114a609a1f6b7b0c88a412dac44c469676c48b3574e21f41ee",
   "permissions": [],
   "categories": [
     "fun"
   ],
-  "reviewed": false
+  "reviewed": false,
+  "requires": [
+    {
+      "program": [
+        "cc",
+        "gcc",
+        "clang"
+      ],
+      "for": "building the plugin once",
+      "install": {
+        "fedora": "sudo dnf install gcc",
+        "debian": "sudo apt install gcc",
+        "arch": "sudo pacman -S gcc",
+        "opensuse": "sudo zypper install gcc"
+      }
+    },
+    {
+      "program": "notify-send",
+      "for": "the desktop notification",
+      "optional": true,
+      "install": {
+        "fedora": "sudo dnf install libnotify",
+        "debian": "sudo apt install libnotify-bin",
+        "arch": "sudo pacman -S libnotify",
+        "opensuse": "sudo zypper install libnotify-tools"
+      }
+    }
+  ]
 }

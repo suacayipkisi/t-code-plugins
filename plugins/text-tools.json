@@ -6,14 +6,26 @@
   "version": "1.0.0",
   "api": "tapi_1",
   "repository": "https://github.com/suacayipkisi/t-code",
-  "commit": "e9d6cd11d1f893ba4f51ec9bec429f3fba171cf8",
+  "commit": "0333e7ea4ddac6f10223f4c8318b1beaf5aabdda",
   "path": "plugins/builtin/text-tools",
-  "tree-sha256": "b3d62ccbef20de0a5fc60827f9718a18bb635ea7c6343824d35e510373bc2cdb",
+  "tree-sha256": "5ffe83c60085402f7e950645e58db72dc3c72a34459f0b51f039ee5369cfee84",
   "permissions": [
     "edit"
   ],
   "categories": [
     "text"
   ],
-  "reviewed": false
+  "reviewed": false,
+  "requires": [
+    {
+      "program": "python3",
+      "for": "running the plugin",
+      "install": {
+        "fedora": "sudo dnf install python3",
+        "debian": "sudo apt install python3",
+        "arch": "sudo pacman -S python",
+        "opensuse": "sudo zypper install python3"
+      }
+    }
+  ]
 }

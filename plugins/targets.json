@@ -6,14 +6,26 @@
   "version": "0.1.0",
   "api": "tapi_1",
   "repository": "https://github.com/suacayipkisi/t-code",
-  "commit": "ead4bb11a2d77af66828be92adbd46341db568d0",
+  "commit": "0333e7ea4ddac6f10223f4c8318b1beaf5aabdda",
   "path": "plugins/builtin/targets",
-  "tree-sha256": "8c562bd2e7d6dcbc90c19df1fcb1f1071b32248ced678d8d73c5427d925c6672",
+  "tree-sha256": "564ce5f1d41c51cc673db9db1d40cb95b3da74d7f84bfee978f4e3bef16d9a94",
   "permissions": [
     "terminal"
   ],
   "categories": [
     "build"
   ],
-  "reviewed": false
+  "reviewed": false,
+  "requires": [
+    {
+      "program": "node",
+      "for": "running the plugin (Node.js 18 or newer)",
+      "install": {
+        "fedora": "sudo dnf install nodejs",
+        "debian": "sudo apt install nodejs",
+        "arch": "sudo pacman -S nodejs",
+        "opensuse": "sudo zypper install nodejs"
+      }
+    }
+  ]
 }
