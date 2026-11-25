@@ -1,0 +1,23 @@
+{
+  "id": "claude-code",
+  "name": "Claude Code",
+  "provider": "t-code",
+  "description": "Claude Code in a terminal tab, the selection sent to it, answers streamed into a side view, a review in Problems and a selection rewritten in place. Needs the claude command; written in Rust, built once with cargo.",
+  "version": "0.1.0",
+  "api": "tapi_1",
+  "repository": "https://github.com/suacayipkisi/t-code",
+  "commit": "83418e1f7fae2206fc68c8ecbc08055d639d9fe6",
+  "path": "plugins/builtin/claude-code",
+  "tree-sha256": "e095a5b5cfbf6ee874e25881eaa813d48dbf48d6e39cd6081a00af0b15f6f037",
+  "permissions": [
+    "edit",
+    "network",
+    "start",
+    "terminal"
+  ],
+  "categories": [
+    "ai",
+    "assistant"
+  ],
+  "reviewed": false
+}
