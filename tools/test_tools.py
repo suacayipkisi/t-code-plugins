@@ -60,6 +60,10 @@ class Entries(unittest.TestCase):
         newer = entry(reviewed=True, commit="f" * 40)
         self.assertTrue(check.check_entry(self.path, newer, reviewed, "someone"))
         self.assertEqual(check.check_entry(self.path, reviewed, reviewed, "someone"), [])
+        # the same commit from another repository or folder is other code: a maintainer again
+        moved = entry(reviewed=True, repository="https://github.com/other/fix")
+        self.assertTrue(check.check_entry(self.path, moved, reviewed, "someone"))
+        self.assertTrue(check.check_entry(self.path, entry(reviewed=True, path="sub"), reviewed, "someone"))
 
 
 class Files(unittest.TestCase):
@@ -107,6 +111,20 @@ class Files(unittest.TestCase):
         self.assertIn("could not run", "\n".join(check.smoke(self.dir, manifest)))
         os.chmod(self.dir / "run.sh", 0o644)
         self.assertIn("no executable program", "\n".join(check.smoke(self.dir, manifest)))
+
+    def test_smoke_executable_inside(self):
+        """An "executable" outside the plugin's folder ("../x", or a link out of it) is refused, never run."""
+        outside = self.dir.parent / (self.dir.name + "-outside.sh")
+        outside.write_text("#!/bin/sh\nexit 0\n")
+        os.chmod(outside, 0o755)
+        try:
+            manifest = {"commands": [{"id": "go", "name": "Go"}], "executable": "../" + outside.name}
+            self.assertIn("not inside", "\n".join(check.smoke(self.dir, manifest)))
+            os.symlink(outside, self.dir / "link.sh")
+            manifest["executable"] = "link.sh"
+            self.assertIn("not inside", "\n".join(check.smoke(self.dir, manifest)))
+        finally:
+            outside.unlink()
 
     def test_smoke_answers_nul_requests(self):
         """A plugin ending its requests with NUL, reading text answers up to a NUL, finishes at once."""

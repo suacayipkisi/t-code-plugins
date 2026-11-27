@@ -113,7 +113,9 @@ def check_entry(path, entry, old, actor):
     reviewed = entry.get("reviewed", False)
     if not isinstance(reviewed, bool):
         problems.append("reviewed: true or false")
-    was_reviewed = bool(old and old.get("reviewed") and old.get("commit") == entry.get("commit"))
+    # the same code: a reviewed commit moved to another repository or folder is another plugin
+    was_reviewed = bool(old and old.get("reviewed") and
+                        all(old.get(key) == entry.get(key) for key in ("repository", "commit", "path", "tree-sha256")))
     if reviewed and not was_reviewed and actor not in maintainers():
         problems.append("reviewed: only a maintainer sets it to true, after reading this exact commit")
     return problems
@@ -219,6 +221,8 @@ def smoke(folder, manifest):
     executable = manifest.get("executable")
     candidates = [executable] if executable else ["run.sh", "plugin", folder.name]
     program = next(((folder / c).resolve() for c in candidates if c and (folder / c).is_file()), None)
+    if program and not program.is_relative_to(folder.resolve()):  # "../x", or a link out of the plugin
+        return [f"executable {executable!r} is not inside the plugin's folder"]
     commands = [c.get("id") for c in manifest.get("commands") or [] if isinstance(c, dict)]
     if manifest.get("start") == "project":
         commands.append("start")
