@@ -7,11 +7,11 @@
       "provider": "t-code",
       "description": "Claude Code in a panel on the right: a conversation in Markdown with Ask, Read and Edit modes, its permission questions as buttons; the selection or file referenced in it, a review in Problems and a selection rewritten in place. Needs Claude Code installed and signed in; written in Rust, built once with cargo.",
       "version": "0.2.0",
-      "api": "tapi_1",
+      "api": "tapi_1_1",
       "repository": "https://github.com/suacayipkisi/t-code",
-      "commit": "2d43d213590a6e4cf52517ae152eb6a2c6687e9a",
+      "commit": "1a33369bc62e0566982435e772388daaff124e46",
       "path": "plugins/builtin/claude-code",
-      "tree-sha256": "b126bbd9111ef7acfb4ca38660d5f536d6d2277b95afad66fc80a6e1204ffdd4",
+      "tree-sha256": "e63aa474b46fa20e41f890e91baa6f53b43e82ee51b4ea8cd6c77c4fd13d90ee",
       "permissions": [
         "edit",
         "network",
@@ -40,71 +40,7 @@
           }
         }
       ],
-      "reviewed": false,
-      "versions": [
-        {
-          "commit": "2d43d213590a6e4cf52517ae152eb6a2c6687e9a",
-          "tree-sha256": "b126bbd9111ef7acfb4ca38660d5f536d6d2277b95afad66fc80a6e1204ffdd4",
-          "version": "0.2.0",
-          "api": "tapi_1",
-          "path": "plugins/builtin/claude-code",
-          "permissions": [
-            "edit",
-            "network",
-            "start"
-          ],
-          "requires": [
-            {
-              "program": "cargo",
-              "for": "building the plugin once",
-              "install": {
-                "fedora": "sudo dnf install cargo",
-                "debian": "sudo apt install cargo",
-                "arch": "sudo pacman -S rust",
-                "opensuse": "sudo zypper install cargo"
-              }
-            },
-            {
-              "program": "claude",
-              "for": "the chat, review and rewrite: Claude Code, installed and signed in (claude auth login)",
-              "install": {
-                "any": "npm install -g @anthropic-ai/claude-code"
-              }
-            }
-          ]
-        },
-        {
-          "commit": "1a33369bc62e0566982435e772388daaff124e46",
-          "tree-sha256": "e63aa474b46fa20e41f890e91baa6f53b43e82ee51b4ea8cd6c77c4fd13d90ee",
-          "version": "0.2.0",
-          "api": "tapi_1_1",
-          "path": "plugins/builtin/claude-code",
-          "permissions": [
-            "edit",
-            "network",
-            "start"
-          ],
-          "requires": [
-            {
-              "program": "cargo",
-              "for": "building the plugin once",
-              "install": {
-                "fedora": "sudo dnf install cargo",
-                "debian": "sudo apt install cargo",
-                "arch": "sudo pacman -S rust",
-                "opensuse": "sudo zypper install cargo"
-              }
-            },
-            {
-              "program": "claude",
-              "for": "the chat, review and rewrite: Claude Code, installed and signed in (claude auth login)",
-              "install": {
-                "any": "npm install -g @anthropic-ai/claude-code"
-              }
-            }
-          ]
-        }
-      ]
+      "reviewed": false
     },
     {
       "id": "cmake",
