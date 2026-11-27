@@ -4,7 +4,12 @@ fields from its plugin.json, so the entry matches what check.py compares.
 
     tools/new_entry.py https://github.com/<owner>/<repo> <commit> [path] [--category <word> ...]
 
-Run tools/build_index.py afterwards. "reviewed" is always false here.
+When plugins/<id>.json is already there, the commit is added to its "versions" (made from the old
+pin when it has none) and the entry's own pin becomes the most compatible row: a commit that needs a
+newer plugin API (tapi_1_1, ...) does not reach the t-codes that only read the pin. Categories and the
+reviews of the rows already there are kept.
+
+Run tools/build_index.py afterwards. "reviewed" is always false for the new commit.
 """
 import argparse
 import json
@@ -44,6 +49,34 @@ def entry_for(repository, commit, path, categories, download=None):
         return entry
 
 
+def row_of(entry):
+    """The entry's pin as a "versions" row (path, permissions and requires too: they may change)."""
+    row = {key: entry[key] for key in check.PIN}
+    for key in ("path", "permissions", "requires"):
+        if key in entry:
+            row[key] = entry[key]
+    if entry.get("reviewed"):
+        row["reviewed"] = True
+    return row
+
+
+def merged(old, new):
+    """new (a fresh entry_for) added to old's versions, the pin the most compatible row."""
+    rows = [r for r in old.get("versions") or [row_of(old)] if r["commit"] != new["commit"]] + [row_of(new)]
+    pin = check.most_compatible(rows)
+    entry = dict(new, categories=old.get("categories") or new["categories"])
+    for key in check.PIN:
+        entry[key] = pin[key]
+    for key in ("path", "permissions", "requires"):
+        entry.pop(key, None)
+        if key in pin:
+            entry[key] = pin[key]
+    entry.setdefault("path", "")
+    entry["reviewed"] = bool(pin.get("reviewed"))
+    entry["versions"] = rows
+    return entry
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("repository")
@@ -53,6 +86,8 @@ def main():
     args = parser.parse_args()
     entry = entry_for(args.repository.rstrip("/"), args.commit, args.path.strip("/"), args.category)
     target = ROOT / "plugins" / f"{entry['id']}.json"
+    if target.exists():
+        entry = merged(json.loads(target.read_text()), entry)
     target.write_text(json.dumps(entry, indent=2, ensure_ascii=False) + "\n")
     print(f"wrote {target.relative_to(ROOT)}: now run tools/build_index.py and tools/check.py {target.relative_to(ROOT)}")
 

@@ -46,6 +46,28 @@ The tree hash is the sha256 of one line per regular file, sorted by path:
 `<file's sha256> <x or -> <path>` (`x` when it is executable). It does not depend on how GitHub
 compresses its archives. Symbolic links make a folder unfit.
 
+### Older t-codes: `versions`
+
+A plugin update may need a newer plugin API (`"api": "tapi_1_1"`): an older t-code cannot load it.
+`versions` lists the plugin's commits, oldest first, each with the API it needs:
+
+```json
+"versions": [
+  {"commit": "0123…", "tree-sha256": "00fc…", "version": "1.0.0", "api": "tapi_1"},
+  {"commit": "4567…", "tree-sha256": "9a1b…", "version": "2.0.0", "api": "tapi_1_1", "permissions": ["terminal"]}
+]
+```
+
+- t-code 0.5.2 and newer install the newest row whose `api` they speak; when an even newer one needs a
+  newer t-code, Browse says so instead of offering it as an update.
+- The entry's own `commit`, `tree-sha256`, `version`, `api` (and `path`, `permissions`, `requires`)
+  are what t-code 0.5.1 and older read: they have to be the **most compatible** row, the newest of
+  the rows that need the oldest `api` (CI checks it).
+- A row says `path`, `permissions` or `requires` when they differ from the entry's, and
+  `"reviewed": true` only from a maintainer, like the entry.
+- `tools/new_entry.py` on an existing entry adds the commit to `versions` and picks the pin itself.
+  CI checks each new row's commit like the pin.
+
 ## Publishing
 
 1. Put the plugin in a public GitHub repository (a whole repository, or a folder in one).

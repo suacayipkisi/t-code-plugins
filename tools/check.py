@@ -11,6 +11,9 @@ each entry:
   - "reviewed": true only from a maintainer (MAINTAINERS); a new commit starts unreviewed;
   - the commit's archive: its plugin folder has a plugin.json whose id, name, version, api and
     permissions match the entry, and its tree hash matches tree-sha256;
+  - "versions" (the plugin's commits, oldest first, each with the api it needs): rows like the pin,
+    the entry's own pin one of them and the most compatible one (t-code 0.5.1 and older read only
+    the pin), and each new row's commit checked like the pin;
   - no symbolic links, no binaries (images aside), no "curl ... | sh";
   - network use (curl, wget, nc, ssh, urllib, fetch, ...) only with the "network" permission; talking
     to t-code's own socket ($TCODE_SOCKET, nc -U, socat UNIX-CONNECT) is not network use;
@@ -45,6 +48,8 @@ IMAGES = {".png", ".jpg", ".jpeg", ".gif", ".ico", ".webp"}
 ID = re.compile(r"^[a-z0-9][a-z0-9-]*$")
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
+TAPI = re.compile(r"^tapi_([1-9][0-9]{0,2})(?:_([0-9]{1,3}))?$")  # tapi_1 = tapi_1_0, tapi_1_1, ...
+PIN = ("commit", "tree-sha256", "version", "api")  # what a "versions" row has to say
 PIPE_TO_SHELL = re.compile(r"(curl|wget)[^\n|]*\|\s*(sudo\s+)?(ba|z|da)?sh\b")
 NETWORK = re.compile(
     r"(?:^|[\s;|&(`'\"\[])(curl|wget|nc|ncat|ssh|scp|rsync|telnet)(?=[\s'\"]|$)"  # as a program
@@ -81,6 +86,87 @@ def provider_of(manifest, repository):
     return manifest.get("provider") or owner(repository)
 
 
+def tapi(text):
+    """("tapi_1_1" -> (1, 1)), None for anything that is not a plugin API version."""
+    match = TAPI.match(text) if isinstance(text, str) else None
+    return (int(match.group(1)), int(match.group(2) or 0)) if match else None
+
+
+def most_compatible(rows):
+    """The newest of the rows that need the oldest api: the pin t-codes without "versions" read."""
+    oldest = min(tapi(row["api"]) for row in rows)
+    return [row for row in rows if tapi(row["api"]) == oldest][-1]
+
+
+def row_entry(entry, row):
+    """The entry as it would be pinned to one of its "versions" rows."""
+    pinned = dict(entry, **{key: row[key] for key in PIN})
+    for key in ("path", "permissions", "requires"):
+        if key in row:
+            pinned[key] = row[key]
+    pinned["reviewed"] = row.get("reviewed", False)
+    return pinned
+
+
+def check_versions(entry, old, actor):
+    """Problems with the entry's "versions" (old: the entry at --base, or None)."""
+    rows = entry.get("versions")
+    if rows is None:
+        return []
+    if not isinstance(rows, list) or not rows or not all(isinstance(row, dict) for row in rows):
+        return ["versions: a list of objects, oldest first"]
+    problems = []
+    for i, row in enumerate(rows, 1):
+        if not isinstance(row.get("commit"), str) or not HEX40.match(row["commit"]):
+            problems.append(f"versions[{i}].commit: 40 lowercase hex digits")
+        if not isinstance(row.get("tree-sha256"), str) or not HEX64.match(row["tree-sha256"]):
+            problems.append(f"versions[{i}].tree-sha256: 64 lowercase hex digits")
+        if not isinstance(row.get("version"), str) or not row["version"]:
+            problems.append(f"versions[{i}].version: a string (the same as in its plugin.json)")
+        if not tapi(row.get("api")):
+            problems.append(f"versions[{i}].api: tapi_N or tapi_N_M (the same as in its plugin.json)")
+        sub = row.get("path", "")
+        if not isinstance(sub, str) or sub.startswith("/") or ".." in sub.split("/"):
+            problems.append(f"versions[{i}].path: a folder inside the repository")
+        if "permissions" in row and (not strings(row["permissions"]) or set(row["permissions"]) - PERMISSIONS):
+            problems.append(f"versions[{i}].permissions: a list of known permissions")
+        if "requires" in row and (not isinstance(row["requires"], list) or
+                                  not all(isinstance(need, dict) for need in row["requires"])):
+            problems.append(f"versions[{i}].requires: a list of objects")
+        if not isinstance(row.get("reviewed", False), bool):
+            problems.append(f"versions[{i}].reviewed: true or false")
+    if problems:
+        return problems
+    commits = [row["commit"] for row in rows]
+    if len(set(commits)) != len(commits):
+        problems.append("versions: a commit is listed twice")
+    pin = {key: entry.get(key) for key in PIN}
+    if not any(all(row[key] == pin[key] for key in PIN) for row in rows):
+        problems.append("versions: the entry's own commit, tree-sha256, version and api are not one of its rows")
+    elif any(entry.get(key) != row_entry(entry, most_compatible(rows)).get(key) for key in PIN + ("path",)):
+        problems.append(f"versions: the entry's own pin has to be the most compatible row ({most_compatible(rows)['version']}): "
+                        "t-code 0.5.1 and older install only that one")
+    # reviewed before: the same commit, folder and files, reviewed in a row or as the old entry's own pin
+    old = old or {}
+    same_repository = old.get("repository") == entry.get("repository")
+    was = [row_entry(old, r) for r in old.get("versions") or [] if isinstance(r, dict) and all(k in r for k in PIN)]
+    was += [row_entry(old, old)] if all(k in old for k in PIN) else []
+    for row in rows:
+        pinned = row_entry(entry, row)
+        known = same_repository and any(before.get("reviewed") and all(
+            before.get(key) == pinned.get(key) for key in ("commit", "tree-sha256", "path")) for before in was)
+        if row.get("reviewed") and not known and actor not in maintainers():
+            problems.append(f"versions: only a maintainer marks {row['version']} reviewed, after reading that commit")
+    return problems
+
+
+def new_rows(entry, old):
+    """The "versions" rows that were not at --base (all of them without a base), but the entry's own pin."""
+    was = [row for row in (old or {}).get("versions") or [] if isinstance(row, dict)]
+    return [row for row in entry.get("versions") or []
+            if row not in was and row.get("commit") != entry.get("commit")]
+
+
 def check_entry(path, entry, old, actor):
     """Problems with the entry itself (old: the same file at --base, or None)."""
     problems = []
@@ -110,6 +196,8 @@ def check_entry(path, entry, old, actor):
     for key in ("name", "provider", "description", "version", "api"):
         if not isinstance(entry.get(key), str) or not entry[key]:
             problems.append(f"{key}: a string (the same as in plugin.json)")
+    if isinstance(entry.get("api"), str) and entry["api"] and not tapi(entry["api"]):
+        problems.append("api: tapi_N or tapi_N_M (the same as in plugin.json)")
     reviewed = entry.get("reviewed", False)
     if not isinstance(reviewed, bool):
         problems.append("reviewed: true or false")
@@ -118,7 +206,7 @@ def check_entry(path, entry, old, actor):
                         all(old.get(key) == entry.get(key) for key in ("repository", "commit", "path", "tree-sha256")))
     if reviewed and not was_reviewed and actor not in maintainers():
         problems.append("reviewed: only a maintainer sets it to true, after reading this exact commit")
-    return problems
+    return problems + check_versions(entry, old, actor)
 
 
 def download(entry, into):
@@ -251,7 +339,9 @@ def smoke(folder, manifest):
     return problems
 
 
-def check_commit(entry):
+def check_commit(entry, row=False):
+    """Problems with the commit entry pins (row: one of its older or newer "versions", whose name and
+    description may differ from the entry's)."""
     problems = []
     with tempfile.TemporaryDirectory() as tmp:
         try:
@@ -269,6 +359,8 @@ def check_commit(entry):
                 "version": manifest.get("version"), "api": manifest.get("api"),
                 "description": manifest.get("description")}
         for key, value in same.items():
+            if row and key in ("name", "provider", "description"):
+                continue
             if value != entry.get(key):
                 problems.append(f"{key}: the entry says {entry.get(key)!r}, plugin.json {value!r}")
         if sorted(manifest.get("permissions") or []) != sorted(entry.get("permissions") or []):
@@ -310,9 +402,12 @@ def main():
             print(f"{path.name}: not JSON: {e}")
             failed = True
             continue
-        problems = check_entry(path, entry, at_base(args.base, path), args.actor)
+        old = at_base(args.base, path)
+        problems = check_entry(path, entry, old, args.actor)
         if not problems and not args.offline:
             problems = check_commit(entry)
+            for row in new_rows(entry, old):
+                problems += [f"version {row['version']}: {p}" for p in check_commit(row_entry(entry, row), row=True)]
         for p in problems:
             print(f"{path.name}: {p}")
         failed |= bool(problems)

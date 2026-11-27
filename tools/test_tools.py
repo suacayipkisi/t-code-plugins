@@ -66,6 +66,78 @@ class Entries(unittest.TestCase):
         self.assertTrue(check.check_entry(self.path, entry(reviewed=True, path="sub"), reviewed, "someone"))
 
 
+NEWER = "f" * 40
+
+
+def row(commit=COMMIT, version="1.0.0", api="tapi_1", **more):
+    return dict({"commit": commit, "tree-sha256": FIXTURE_TREE, "version": version, "api": api}, **more)
+
+
+class Versions(unittest.TestCase):
+    path = pathlib.Path("plugins/fix.json")
+
+    def problems(self, e, old=None, actor="someone"):
+        return "\n".join(check.check_entry(self.path, e, old, actor))
+
+    def test_api_names(self):
+        self.assertEqual(check.tapi("tapi_1"), (1, 0))
+        self.assertEqual(check.tapi("tapi_1_1"), (1, 1))
+        for bad in ("tapi_0", "tapi_1_", "tapi_1x", "tapi_1_1_1", None, 1):
+            self.assertIsNone(check.tapi(bad))
+        self.assertIn("api: tapi_N", self.problems(entry(api="tapi_one")))
+
+    def test_good(self):
+        self.assertEqual(self.problems(entry(versions=[row(), row(NEWER, "2.0.0", "tapi_1_1")])), "")
+
+    def test_pin_is_the_most_compatible_row(self):
+        newer_pin = entry(commit=NEWER, version="2.0.0", api="tapi_1_1",
+                          versions=[row(), row(NEWER, "2.0.0", "tapi_1_1")])
+        self.assertIn("most compatible row (1.0.0)", self.problems(newer_pin))
+        self.assertIn("not one of its rows", self.problems(entry(versions=[row(NEWER, "2.0.0", "tapi_1_1")])))
+        # two rows on the oldest api: the newer of them
+        older = entry(versions=[row(), row(NEWER, "1.1.0")])
+        self.assertIn("most compatible row (1.1.0)", self.problems(older))
+        self.assertEqual(self.problems(entry(commit=NEWER, version="1.1.0", versions=[row(), row(NEWER, "1.1.0")])), "")
+
+    def test_bad_rows(self):
+        text = self.problems(entry(versions=[row(), row("abc", api="tapi_x", path="../up", permissions=["root"])]))
+        for word in ("versions[2].commit", "versions[2].api", "versions[2].path", "versions[2].permissions"):
+            self.assertIn(word, text)
+        self.assertIn("listed twice", self.problems(entry(versions=[row(), row()])))
+        self.assertIn("a list of objects", self.problems(entry(versions=[])))
+
+    def test_reviewed_rows_by_maintainers_only(self):
+        rows = [row(), row(NEWER, "2.0.0", "tapi_1_1", reviewed=True)]
+        self.assertIn("only a maintainer marks 2.0.0", self.problems(entry(versions=rows)))
+        self.assertEqual(self.problems(entry(versions=rows), actor="suacayipkisi"), "")
+        self.assertEqual(self.problems(entry(versions=rows), entry(versions=rows)), "")  # it was reviewed
+
+    def test_new_rows(self):
+        old = entry(versions=[row()])
+        new = entry(versions=[row(), row(NEWER, "2.0.0", "tapi_1_1")])
+        self.assertEqual([r["commit"] for r in check.new_rows(new, old)], [NEWER])
+        self.assertEqual([r["commit"] for r in check.new_rows(new, None)], [NEWER])  # the pin is checked anyway
+        pinned = check.row_entry(new, new["versions"][1])
+        self.assertEqual((pinned["commit"], pinned["api"], pinned["reviewed"]), (NEWER, "tapi_1_1", False))
+
+    def test_new_entry_merges(self):
+        import new_entry
+        old = entry(reviewed=True, categories=["linters"])
+        new = entry(commit=NEWER, version="2.0.0", api="tapi_1_1", permissions=["terminal"], categories=[])
+        merged = new_entry.merged(old, new)
+        self.assertEqual(merged["commit"], COMMIT)  # the pin stays on the tapi_1 commit
+        self.assertTrue(merged["reviewed"])
+        self.assertEqual(merged["permissions"], [])
+        self.assertEqual(merged["categories"], ["linters"])
+        self.assertEqual([r["commit"] for r in merged["versions"]], [COMMIT, NEWER])
+        self.assertEqual(merged["versions"][1]["permissions"], ["terminal"])
+        self.assertEqual(self.problems(merged, old, "someone"), "")
+        # a newer tapi_1 commit after that becomes the pin, unreviewed
+        third = new_entry.merged(merged, entry(commit="e" * 40, version="2.1.0"))
+        self.assertEqual((third["commit"], third["reviewed"]), ("e" * 40, False))
+        self.assertEqual(len(third["versions"]), 3)
+        self.assertEqual(self.problems(third, merged, "someone"), "")
+
 class Files(unittest.TestCase):
     def setUp(self):
         self.dir = pathlib.Path(tempfile.mkdtemp())
